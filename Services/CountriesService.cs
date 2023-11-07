@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContract.DTOs;
 using ServiceContract.Interfaces;
 
@@ -6,14 +7,14 @@ namespace Services
 {
     public class CountriesService : ICountriesService
     {
-        public readonly List<Country> _Countries;
+        private readonly CrudDbContext _dbContext;
 
-        public CountriesService()
+        public CountriesService(CrudDbContext dbContext)
         {
-            _Countries = new List<Country>();
+            _dbContext = dbContext;
         }
 
-        public CountryForReturnDto AddCountry(CountryForCreateDto? countryForCreateDTO)
+        public async Task<CountryForReturnDto> AddCountry(CountryForCreateDto? countryForCreateDTO)
         {
             //Validation: countryForCreateDTO parameter can't be null
             if (countryForCreateDTO == null)
@@ -28,7 +29,7 @@ namespace Services
             }
 
             //Validation: Name can't be duplicate
-            if (_Countries.Any(c => c.Name == countryForCreateDTO.Name))
+            if (await _dbContext.Countries.AnyAsync(c => c.Name == countryForCreateDTO.Name))
             {
                 throw new ArgumentException("Given country name already exists");
             }
@@ -36,25 +37,23 @@ namespace Services
             //Convert object from CountryForCreateDTO to Country type
             Country country = countryForCreateDTO.ToCountry();
 
-            //generate Id
-            country.Id = Guid.NewGuid();
-
             //Validation: Every thing is ok , Add country object into _countries
-            _Countries.Add(country);
+            await _dbContext.Countries.AddAsync(country);
+            await _dbContext.SaveChangesAsync();
             return country.ToCountryForReturn();
         }
 
-        public List<CountryForReturnDto> GetAllCoutries()
+        public async Task<List<CountryForReturnDto>> GetAllCoutries()
         {
-            return _Countries.Select(c => c.ToCountryForReturn()).ToList();
+            return await _dbContext.Countries.Select(c => c.ToCountryForReturn()).ToListAsync();
         }
 
-        public CountryForReturnDto GetCountryById(Guid? id)
+        public async Task<CountryForReturnDto> GetCountryById(Guid? id)
         {
             if (id == null)
                 return null;
 
-            Country? Country = _Countries.FirstOrDefault(c => c.Id == id.Value);
+            Country? Country = await _dbContext.Countries.FirstOrDefaultAsync(c => c.Id == id.Value);
 
             if (Country is null)
                 return null;

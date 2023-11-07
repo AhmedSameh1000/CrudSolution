@@ -1,4 +1,6 @@
-﻿using ServiceContract.DTOs;
+﻿using Entities;
+using Microsoft.EntityFrameworkCore;
+using ServiceContract.DTOs;
 using ServiceContract.Interfaces;
 using Services;
 
@@ -10,68 +12,68 @@ namespace CrudTest
 
         public CountriesServiceTest()
         {
-            _countriesService = new CountriesService();
+            _countriesService = new CountriesService(new Entities.CrudDbContext(new DbContextOptionsBuilder<CrudDbContext>().Options));
         }
 
         #region AddCountry
 
         //When CountryForCreateDto is null, it should throw ArgumentNullException
         [Fact]
-        public void AddCountry_NullCountry()
+        public async Task AddCountry_NullCountry()
         {
             //Arrange
             CountryForCreateDto? countryForCreateDTO = null;
 
             //Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                //Act
-                _countriesService.AddCountry(countryForCreateDTO);
-            });
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+             {
+                 //Act
+                 await _countriesService.AddCountry(countryForCreateDTO);
+             });
         }
 
         //When the Name is null, it should throw ArgumentException
         [Fact]
-        public void AddCountry_NameIsNull()
+        public async Task AddCountry_NameIsNull()
         {
             //Arrange
             CountryForCreateDto? countryForCreateDTO = new CountryForCreateDto() { Name = null };
 
             //Assert
-            Assert.Throws<ArgumentException>(() =>
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
             {
                 //Act
-                _countriesService.AddCountry(countryForCreateDTO);
+                await _countriesService.AddCountry(countryForCreateDTO);
             });
         }
 
         //When the Name is duplicate, it should throw ArgumentException
         [Fact]
-        public void AddCountry_DuplicateName()
+        public async Task AddCountry_DuplicateName()
         {
             //Arrange
             CountryForCreateDto? countryForCreateDTO1 = new CountryForCreateDto() { Name = "Egypt" };
             CountryForCreateDto? countryForCreateDTO2 = new CountryForCreateDto() { Name = "Egypt" };
 
             //Assert
-            Assert.Throws<ArgumentException>(() =>
-            {
-                //Act
-                _countriesService.AddCountry(countryForCreateDTO1);
-                _countriesService.AddCountry(countryForCreateDTO2);
-            });
+            await Assert.ThrowsAsync<ArgumentException>(async () =>
+             {
+                 //Act
+                 await _countriesService.AddCountry(countryForCreateDTO1);
+                 await _countriesService.AddCountry(countryForCreateDTO2);
+             });
         }
 
         //When you supply proper country name, it should insert (add) the country to the existing list of countries
         [Fact]
-        public void AddCountry_ProperCountryDetails()
+        public async Task AddCountry_ProperCountryDetails()
         {
             //Arrange
             CountryForCreateDto? countryForCreateDTO = new CountryForCreateDto() { Name = "Palestine" };
 
             //Act
-            CountryForReturnDto countryForReturnDTO = _countriesService.AddCountry(countryForCreateDTO);
-            List<CountryForReturnDto> actual_CountryForReturnDto_List = _countriesService.GetAllCoutries();
+            CountryForReturnDto countryForReturnDTO = await _countriesService.AddCountry(countryForCreateDTO);
+            List<CountryForReturnDto> actual_CountryForReturnDto_List = await _countriesService.GetAllCoutries();
 
             //Assert
             Assert.True(countryForReturnDTO.Id != Guid.Empty);
@@ -84,17 +86,17 @@ namespace CrudTest
         #region GetAllCountries
 
         [Fact]
-        public void GetAllCountries_EmptyList()
+        public async Task GetAllCountries_EmptyList()
         {
             //Act
-            List<CountryForReturnDto> actualCountryForReturnList = _countriesService.GetAllCoutries();
+            List<CountryForReturnDto> actualCountryForReturnList = await _countriesService.GetAllCoutries();
 
             //Assert
             Assert.Empty(actualCountryForReturnList);
         }
 
         [Fact]
-        public void GetAllCountries_AddFewCountries()
+        public async Task GetAllCountries_AddFewCountries()
         {
             //Arrange
             List<CountryForCreateDto> countryForCreateList = new() {
@@ -103,9 +105,9 @@ namespace CrudTest
             //Act  expected CountryForReturnDto List
             List<CountryForReturnDto> expected_countryForReturnDTO_List = new();
 
-            countryForCreateList.ForEach(cf => expected_countryForReturnDTO_List.Add(_countriesService.AddCountry(cf)));
+            countryForCreateList.ForEach(async cf => expected_countryForReturnDTO_List.Add(await _countriesService.AddCountry(cf)));
 
-            List<CountryForReturnDto> actual_CountryForReturnDto_List = _countriesService.GetAllCoutries();
+            List<CountryForReturnDto> actual_CountryForReturnDto_List = await _countriesService.GetAllCoutries();
 
             //Check that actual_CountryForReturnDto_List contains All expected_countryForReturn_List items
             expected_countryForReturnDTO_List.ForEach(ec => Assert.Contains(ec, actual_CountryForReturnDto_List));
@@ -116,27 +118,27 @@ namespace CrudTest
         #region GetCountryById
 
         [Fact]
-        public void GetCountryByID_NullId()
+        public async Task GetCountryByID_NullId()
         {
             //Arrange
             Guid? Id = null;
 
             //Act
-            CountryForReturnDto? countryForReturnDTO = _countriesService.GetCountryById(Id);
+            CountryForReturnDto? countryForReturnDTO = await _countriesService.GetCountryById(Id);
 
             //Assert
             Assert.Null(countryForReturnDTO);
         }
 
         [Fact]
-        public void GetCountryByID_ValidId()
+        public async Task GetCountryByID_ValidId()
         {
             //Arrange
             CountryForCreateDto? countryForCreateDTO = new() { Name = "Libya" };
-            CountryForReturnDto countryForReturnDTO_From_Add = _countriesService.AddCountry(countryForCreateDTO);
+            CountryForReturnDto countryForReturnDTO_From_Add = await _countriesService.AddCountry(countryForCreateDTO);
 
             //Act
-            CountryForReturnDto? countryForReturnDTO_From_Get = _countriesService.GetCountryById(countryForReturnDTO_From_Add.Id);
+            CountryForReturnDto? countryForReturnDTO_From_Get = await _countriesService.GetCountryById(countryForReturnDTO_From_Add.Id);
 
             //Assert
             Assert.Equal(countryForReturnDTO_From_Add, countryForReturnDTO_From_Get);

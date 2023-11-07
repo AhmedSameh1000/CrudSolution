@@ -15,11 +15,20 @@ namespace ServiceContract.DTOs
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Email Cant Be Blank")]
+        [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
 
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
+
+        [Required]
         public GenderOptions? Gender { get; set; }
+
+        [Required(ErrorMessage = "Select Country")]
         public Guid? CountryId { get; set; }
+
+        [Required]
         public bool ReceiveEmails { get; set; }
 
         public Person ToPerson()

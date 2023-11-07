@@ -1,0 +1,35 @@
+﻿@model PersonForReturnDTO
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-Dark">Delete person</h2>
+        </div>
+        <div class="col text-end mt-2">
+            <a asp-controller="Person" asp-action="Index" class="btn btn-outline-primary"><i class="bi bi-arrow-left-square-fill"></i> Back to persons list</a>
+        </div>
+    </div>
+    <form asp-action="Delete" asp-controller="Person" method="post">
+        <div class="form-group p-1 mx-3 mt-0">
+            <label asp-for="Name" class="form-label">Name:</label>
+            <input disabled asp-for="Name"  class="form-control" placeholder="Enter name">
+        </div>
+        <div class="form-group p-1 mx-3">
+            <label asp-for="Email" class="form-label">Email:</label>
+            <input disabled asp-for="Email" class="form-control" placeholder="Enter email">
+        </div>
+   
+        <button type="submit" class="btn btn-primary ms-3 mt-2">Save</button>
+    @*   
+        @if (ViewBag.Errors != null)
+        {
+            <div class="text-danger mt-1">
+                <ul>
+                    @foreach (var Error in ViewBag.Errors)
+                    {
+                        <li>@Error</li>
+                    }
+                </ul>
+            </div>
+        } *@
+    </form>
+</div>

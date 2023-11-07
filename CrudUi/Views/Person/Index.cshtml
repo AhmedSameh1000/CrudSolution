@@ -1,0 +1,106 @@
+﻿@model IEnumerable<PersonForReturnDTO>
+
+@{
+    ViewBag.Title = "Persons";
+}
+<div class="container p-2 ">
+
+    <div class="row pb-2">
+        <div class="col">
+            <h2 class="text-Dark ">Persons List</h2>
+        </div>
+        <div class="col text-end pt-2">
+            <a asp-controller="Person" asp-action="Create" class="btn btn-outline-success"><i class="fa-solid fa-square-plus" ></i> Add New Person</a>
+        </div>
+    </div>
+
+    <form class="row pb-2">
+        <div class="col dropdown">
+            <select class="form-select" title="Search By" name="searchBy">
+                @foreach (var Field in ViewBag.SearchFields)
+                {
+                    if (Field.Key == ViewBag.CurrentSearchBy)
+                    {
+                        <option value="@Field.Key" selected>@Field.Value</option>
+                    }
+                    else
+                    {
+                      <option value="@Field.Key">@Field.Value</option>
+                    }
+
+                }
+            </select>
+        </div>
+        <div class="col shadow-none" >
+            <input class="form-control" value="@ViewBag.CurrentSearchString" placeholder="Enter search text" name="searchString">
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </div>
+    </form>
+
+    <table class="table table-hover w-100">
+        <thead>
+            <tr>
+               @* <partial name="_ColumnHeader"> *@
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                    {"ColumnName",nameof(PersonForReturnDTO.Name)},
+                    {"DisplayName","Name"}
+                })
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                {"ColumnName",nameof(PersonForReturnDTO.Email)},
+                {"DisplayName","Email"}
+                })
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                {"ColumnName",nameof(PersonForReturnDTO.DateOfBirth)},
+                {"DisplayName","Date Of Birth"}
+                })
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                {"ColumnName",nameof(PersonForReturnDTO.Age)},
+                {"DisplayName","Age"}
+                })
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                {"ColumnName",nameof(PersonForReturnDTO.Gender)},
+                {"DisplayName","Gender"}
+                })
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                {"ColumnName",nameof(PersonForReturnDTO.Country)},
+                {"DisplayName","Country"}
+                })
+                @await Html.PartialAsync("_ColumnHeader",new ViewDataDictionary(ViewData){
+                {"ColumnName",nameof(PersonForReturnDTO.ReceiveEmails)},
+                {"DisplayName","Receive Emails"}
+                })
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (PersonForReturnDTO person in Model)
+            {
+                <tr>
+                    <td>@person.Name</td>
+                    <td class="text-center">@person.Email</td>
+                    <td class="text-center">@person.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                    <td class="text-center">@person.Age</td>
+                    <td class="text-center">@person.Gender</td>
+                    <td class="text-center">@person.Country</td>
+                    <td class="text-center">@person.ReceiveEmails</td>
+                    <td class="d-flex text-center ">
+                        <a class="btn btn-warning mx-5" asp-controller="Person" asp-action="Update" asp-route-id="@person.Id">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@person.Id">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="col text-end pt-2">
+
+        <a asp-action="PersonsCSV" asp-controller="Person" class="btn btn-outline-dark">Downlaod as CSV</a>
+    </div>
+</div>
+

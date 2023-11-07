@@ -9,10 +9,10 @@ namespace ServiceContract.Interfaces
 {
     public interface ICountriesService
     {
-        CountryForReturnDto AddCountry(CountryForCreateDto? country);
+        Task<CountryForReturnDto> AddCountry(CountryForCreateDto? country);
 
-        List<CountryForReturnDto> GetAllCoutries();
+        Task<List<CountryForReturnDto>> GetAllCoutries();
 
-        CountryForReturnDto GetCountryById(Guid? id);
+        Task<CountryForReturnDto> GetCountryById(Guid? id);
     }
 }

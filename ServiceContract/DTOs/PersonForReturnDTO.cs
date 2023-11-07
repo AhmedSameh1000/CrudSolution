@@ -59,7 +59,8 @@ namespace ServiceContract.DTOs
                 CountryId = person.CountryId,
                 Gender = person.Gender,
                 ReceiveEmails = person.ReceiveEmails,
-                Age = (person.DateOfBirth != null) ? Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365.25) : null
+                Age = (person.DateOfBirth != null) ? Math.Round((DateTime.Now - person.DateOfBirth.Value).TotalDays / 365.25) : null,
+                Country = person.Country?.Name
             };
         }
     }

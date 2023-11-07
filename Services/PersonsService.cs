@@ -1,23 +1,26 @@
-﻿using Entities;
+﻿using CsvHelper;
+using Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceContract.DTOs;
 using ServiceContract.Enums;
 using ServiceContract.Interfaces;
 using Services.Healpers;
+using System.Globalization;
 
 namespace Services
 {
     public class PersonsService : IPersonService
     {
-        private readonly List<Person> _Persons;
-        private readonly ICountriesService _CountriesService;
+        private readonly CrudDbContext _dbContext;
+        private readonly ICountriesService _countriesService;
 
-        public PersonsService()
+        public PersonsService(CrudDbContext dbContext, ICountriesService countriesService)
         {
-            _CountriesService = new CountriesService();
-            _Persons = new List<Person>();
+            _dbContext = dbContext;
+            _countriesService = countriesService;
         }
 
-        public PersonForReturnDTO AddPerson(PersonForCreateDTO? personForCreate)
+        public async Task<PersonForReturnDTO> AddPerson(PersonForCreateDTO? personForCreate)
         {
             if (personForCreate == null)
             {
@@ -46,25 +49,27 @@ namespace Services
 
             //generate Person
             //
-            person.Id = Guid.NewGuid();
 
             //add person object to persons list
-            _Persons.Add(person);
-
+            await _dbContext.Persons.AddAsync(person);
+            await _dbContext.SaveChangesAsync();
             //convert the Person object into PersonForReturnDTO type
             PersonForReturnDTO personForReturnDTO = person.ToPersonForReturn();
-            personForReturnDTO.Country = _CountriesService.GetCountryById(person.CountryId)?.Name;
+
+            //personForReturnDTO.Country = _countriesService.GetCountryById(person.CountryId)?.Name;
             return personForReturnDTO;
         }
 
-        public List<PersonForReturnDTO> GetAllPerson()
+        public async Task<List<PersonForReturnDTO>> GetAllPerson()
         {
-            return _Persons.Select(c => c.ToPersonForReturn()).ToList();
+            var Persons = await _dbContext.Persons.Include(c => c.Country).Select(c => c.ToPersonForReturn()).ToListAsync();
+
+            return Persons;
         }
 
-        public PersonForReturnDTO GetPersonById(Guid id)
+        public async Task<PersonForReturnDTO> GetPersonById(Guid id)
         {
-            var person = _Persons.FirstOrDefault(c => c.Id == id);
+            var person = await _dbContext.Persons.Include(c => c.Country).FirstOrDefaultAsync(c => c.Id == id);
 
             if (person == null)
                 return null;
@@ -72,9 +77,9 @@ namespace Services
             return person.ToPersonForReturn();
         }
 
-        public List<PersonForReturnDTO> GetFilteredPersons(string searchBy, string? searchString)
+        public async Task<List<PersonForReturnDTO>> GetFilteredPersons(string searchBy, string? searchString)
         {
-            List<PersonForReturnDTO> allPersons = GetAllPerson();
+            List<PersonForReturnDTO> allPersons = await GetAllPerson();
             List<PersonForReturnDTO> matchingPersons = allPersons;
 
             if (string.IsNullOrEmpty(searchBy) || string.IsNullOrEmpty(searchString))
@@ -83,7 +88,7 @@ namespace Services
             switch (searchBy)
             {
                 case nameof(Person.Name):
-                    matchingPersons = allPersons.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    matchingPersons = allPersons.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                     break;
 
                 case nameof(Person.Email):
@@ -93,7 +98,7 @@ namespace Services
 
                 case nameof(Person.DateOfBirth):
                     matchingPersons = allPersons.Where(p =>
-                    p.DateOfBirth != null && p.DateOfBirth.Value.ToString("dd MM yyyy").Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    p.DateOfBirth != null && p.DateOfBirth.Value.ToString("dd MM yyyy").StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                     break;
 
                 case nameof(Person.Gender):
@@ -101,9 +106,14 @@ namespace Services
                     !string.IsNullOrEmpty(p.Gender) && p.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                     break;
 
-                case nameof(Person.CountryId):
+                case nameof(Person.Country):
                     matchingPersons = allPersons.Where(p =>
-                    !string.IsNullOrEmpty(p.Country) && p.Country.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    !string.IsNullOrEmpty(p.Country) && p.Country.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                case nameof(Person.ReceiveEmails):
+                    matchingPersons = allPersons.Where(p =>
+                    !string.IsNullOrEmpty(p.ReceiveEmails.ToString()) && p.ReceiveEmails.ToString().StartsWith(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                     break;
 
                 default: matchingPersons = allPersons; break;
@@ -148,7 +158,7 @@ namespace Services
             return sortedPersons;
         }
 
-        public PersonForReturnDTO UpdatePerson(PersonForUpdateDTO? PersontoUpdate)
+        public async Task<PersonForReturnDTO> UpdatePerson(PersonForUpdateDTO? PersontoUpdate)
         {
             if (PersontoUpdate == null)
                 throw new ArgumentNullException(nameof(Person));
@@ -157,7 +167,7 @@ namespace Services
             Healper.ValidateModel(PersontoUpdate);
 
             //get matching person object to update
-            Person? personForUpdate = _Persons.FirstOrDefault(p => p.Id == PersontoUpdate.ID);
+            Person? personForUpdate = await _dbContext.Persons.Include(c => c.Country).FirstOrDefaultAsync(p => p.Id == PersontoUpdate.ID);
             if (personForUpdate == null)
             {
                 throw new ArgumentException("Given person id doesn't exist");
@@ -171,23 +181,44 @@ namespace Services
             personForUpdate.CountryId = PersontoUpdate.CountryId;
             personForUpdate.ReceiveEmails = PersontoUpdate.ReceiveEmails;
 
+            _dbContext.Persons.Update(personForUpdate);
+            await _dbContext.SaveChangesAsync();
             return personForUpdate.ToPersonForReturn();
         }
 
-        public bool RemovePerson(Guid Id)
+        public async Task<bool> RemovePerson(Guid Id)
         {
             if (Id == null)
             {
                 throw new ArgumentNullException(nameof(Id));
             }
 
-            Person? person = _Persons.FirstOrDefault(p => p.Id == Id);
+            Person? person = await _dbContext.Persons.FirstOrDefaultAsync(p => p.Id == Id);
             if (person == null)
                 return false;
 
-            _Persons.Remove(person);
-
+            _dbContext.Remove(person);
+            await _dbContext.SaveChangesAsync();
             return true;
+        }
+
+        //first step download CSV Healper
+        public async Task<MemoryStream> GetPersonsCSV()
+        {
+            MemoryStream memoryStream = new();
+            StreamWriter streamWriter = new(memoryStream);
+            CsvWriter csvWriter = new(streamWriter, CultureInfo.InvariantCulture, leaveOpen: true);
+
+            csvWriter.WriteHeader<PersonForReturnDTO>(); //Id,Name,Email,.....
+            csvWriter.NextRecord();
+
+            List<PersonForReturnDTO> persons = _dbContext.Persons
+              .Include("Country")
+              .Select(p => p.ToPersonForReturn()).ToList();
+            await csvWriter.WriteRecordsAsync(persons); //1,abc,abc,.....
+            streamWriter.Flush();
+            memoryStream.Position = 0;
+            return memoryStream;
         }
     }
 }
