@@ -1,0 +1,15 @@
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\bin\Debug\net7.0\RepositoryContacts.deps.json
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\bin\Debug\net7.0\RepositoryContacts.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\bin\Debug\net7.0\RepositoryContacts.pdb
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\bin\Debug\net7.0\Entities.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\bin\Debug\net7.0\Entities.pdb
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.csproj.CopyComplete
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\refint\RepositoryContacts.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\RepositoryContacts.pdb
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\RepositoryContacts\obj\Debug\net7.0\ref\RepositoryContacts.dll

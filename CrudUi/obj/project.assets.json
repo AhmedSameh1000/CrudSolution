@@ -1068,6 +1068,33 @@
           "bin/placeholder/Entities.dll": {}
         }
       },
+      "Repositories/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Entities": "1.0.0",
+          "RepositoryContacts": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Repositories.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Repositories.dll": {}
+        }
+      },
+      "RepositoryContacts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RepositoryContacts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RepositoryContacts.dll": {}
+        }
+      },
       "ServiceContract/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -1086,6 +1113,7 @@
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "CsvHelper": "30.0.1",
+          "RepositoryContacts": "1.0.0",
           "ServiceContract": "1.0.0"
         },
         "compile": {
@@ -2921,6 +2949,16 @@
       "path": "../Entities/Entities.csproj",
       "msbuildProject": "../Entities/Entities.csproj"
     },
+    "Repositories/1.0.0": {
+      "type": "project",
+      "path": "../Repositories/Repositories.csproj",
+      "msbuildProject": "../Repositories/Repositories.csproj"
+    },
+    "RepositoryContacts/1.0.0": {
+      "type": "project",
+      "path": "../RepositoryContacts/RepositoryContacts.csproj",
+      "msbuildProject": "../RepositoryContacts/RepositoryContacts.csproj"
+    },
     "ServiceContract/1.0.0": {
       "type": "project",
       "path": "../ServiceContract/ServiceContract.csproj",
@@ -2936,6 +2974,8 @@
     "net7.0": [
       "Entities >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.13",
+      "Repositories >= 1.0.0",
+      "RepositoryContacts >= 1.0.0",
       "ServiceContract >= 1.0.0",
       "Services >= 1.0.0"
     ]
@@ -2969,6 +3009,12 @@
           "projectReferences": {
             "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\Entities\\Entities.csproj": {
               "projectPath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\Entities\\Entities.csproj"
+            },
+            "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\Repositories\\Repositories.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\Repositories\\Repositories.csproj"
+            },
+            "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\RepositoryContacts\\RepositoryContacts.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\RepositoryContacts\\RepositoryContacts.csproj"
             },
             "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\ServiceContract\\ServiceContract.csproj": {
               "projectPath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\ServiceContract\\ServiceContract.csproj"

@@ -80,3 +80,7 @@ C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Mono.TextTemplating.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\System.CodeDom.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\CsvHelper.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Repositories.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\RepositoryContacts.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Repositories.pdb
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\RepositoryContacts.pdb

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RepositoryContacts\RepositoryContacts.csproj" />
     <ProjectReference Include="..\ServiceContract\ServiceContract.csproj" />
   </ItemGroup>
 

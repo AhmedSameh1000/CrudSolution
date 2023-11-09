@@ -15,3 +15,5 @@ C:\Users\Administrator\Desktop\AspApplication\CrudSolution\Services\obj\Debug\ne
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\Services\obj\Debug\net7.0\refint\Services.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\Services\obj\Debug\net7.0\Services.pdb
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\Services\obj\Debug\net7.0\ref\Services.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\Services\bin\Debug\net7.0\RepositoryContacts.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\Services\bin\Debug\net7.0\RepositoryContacts.pdb

@@ -10,6 +10,8 @@
         "dependencies": {
           "Entities": "1.0.0",
           "Microsoft.EntityFrameworkCore.Design": "7.0.13",
+          "Repositories": "1.0.0",
+          "RepositoryContacts": "1.0.0",
           "ServiceContract": "1.0.0",
           "Services": "1.0.0"
         },
@@ -565,6 +567,23 @@
           "Entities.dll": {}
         }
       },
+      "Repositories/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0",
+          "RepositoryContacts": "1.0.0"
+        },
+        "runtime": {
+          "Repositories.dll": {}
+        }
+      },
+      "RepositoryContacts/1.0.0": {
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "runtime": {
+          "RepositoryContacts.dll": {}
+        }
+      },
       "ServiceContract/1.0.0": {
         "dependencies": {
           "Entities": "1.0.0"
@@ -576,6 +595,7 @@
       "Services/1.0.0": {
         "dependencies": {
           "CsvHelper": "30.0.1",
+          "RepositoryContacts": "1.0.0",
           "ServiceContract": "1.0.0"
         },
         "runtime": {
@@ -1011,6 +1031,16 @@
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
     "Entities/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Repositories/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "RepositoryContacts/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -987,6 +987,19 @@
           "bin/placeholder/Entities.dll": {}
         }
       },
+      "RepositoryContacts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/RepositoryContacts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/RepositoryContacts.dll": {}
+        }
+      },
       "ServiceContract/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -2678,6 +2691,11 @@
       "path": "../Entities/Entities.csproj",
       "msbuildProject": "../Entities/Entities.csproj"
     },
+    "RepositoryContacts/1.0.0": {
+      "type": "project",
+      "path": "../RepositoryContacts/RepositoryContacts.csproj",
+      "msbuildProject": "../RepositoryContacts/RepositoryContacts.csproj"
+    },
     "ServiceContract/1.0.0": {
       "type": "project",
       "path": "../ServiceContract/ServiceContract.csproj",
@@ -2687,6 +2705,7 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "CsvHelper >= 30.0.1",
+      "RepositoryContacts >= 1.0.0",
       "ServiceContract >= 1.0.0"
     ]
   },
@@ -2717,6 +2736,9 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\RepositoryContacts\\RepositoryContacts.csproj": {
+              "projectPath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\RepositoryContacts\\RepositoryContacts.csproj"
+            },
             "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\ServiceContract\\ServiceContract.csproj": {
               "projectPath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\ServiceContract\\ServiceContract.csproj"
             }

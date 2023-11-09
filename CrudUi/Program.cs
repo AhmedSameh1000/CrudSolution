@@ -1,5 +1,7 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
+using Repositories;
+using RepositoryContacts;
 using ServiceContract.Interfaces;
 using Services;
 
@@ -9,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPersonService, PersonsService>();
 builder.Services.AddScoped<ICountriesService, CountriesService>();
+builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
+builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
+
 builder.Services.AddDbContext<CrudDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"));

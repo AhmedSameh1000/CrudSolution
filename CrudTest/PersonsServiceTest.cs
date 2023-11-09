@@ -1,24 +1,49 @@
-﻿using Entities;
+﻿using AutoFixture;
+using Entities;
+using EntityFrameworkCoreMock;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using RepositoryContacts;
 using ServiceContract.DTOs;
 using ServiceContract.Enums;
 using ServiceContract.Interfaces;
 using Services;
 using System.Linq.Expressions;
 using Xunit.Abstractions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CrudTest
 {
     public class PersonsServiceTest
     {
         private readonly IPersonService _personsService;
-        private readonly ICountriesService _countriesService;
         private readonly ITestOutputHelper _testOutputHelper;
+        private readonly IFixture _fixture;
+        private readonly Mock<IPersonsRepository> _personRepositoryMock;
+        private readonly IPersonsRepository _PersonRepository;
 
         public PersonsServiceTest(ITestOutputHelper testOutputHelper)
         {
-            _countriesService = new CountriesService(new Entities.CrudDbContext(new DbContextOptionsBuilder<CrudDbContext>().Options));
-            _personsService = new PersonsService(new Entities.CrudDbContext(new DbContextOptionsBuilder<CrudDbContext>().Options), _countriesService);
+            _fixture = new Fixture();
+            //before be using repositories when we use dbcontext with services
+            //var PersonInitialData = new List<Person>();
+            //var CountriesInitialData = new List<Country>();
+
+            ////var DbContext = new Entities.CrudDbContext(new DbContextOptionsBuilder<CrudDbContext>().Options);=>Real DbContext
+            //DbContextMock<CrudDbContext> dbContextMock = new(new DbContextOptionsBuilder<CrudDbContext>().Options);//Not Real DbContext||dbContextMock
+            //dbContextMock.CreateDbSetMock(dbcontext => dbcontext.Persons, PersonInitialData);
+            //dbContextMock.CreateDbSetMock(dbcontext => dbcontext.Countries, CountriesInitialData);
+            //var DbContext = dbContextMock.Object;
+
+            //_countriesService = new CountriesService(DbContext);
+            //_personsService = new PersonsService(DbContext, _countriesService);
+
+            // now we use Repositories
+
+            _personRepositoryMock = new Mock<IPersonsRepository>();
+            _PersonRepository = _personRepositoryMock.Object;
+            _personsService = new PersonsService(_PersonRepository);
             _testOutputHelper = testOutputHelper;
         }
 
@@ -31,11 +56,18 @@ namespace CrudTest
             //Arrange
             PersonForCreateDTO? personForCreateDTO = null;
 
-            //Act
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            //Act //Using Assert Class
+            //await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            // {
+            //     await _personsService.AddPerson(personForCreateDTO);
+            // });
+
+            var Actual = async () =>
              {
                  await _personsService.AddPerson(personForCreateDTO);
-             });
+             };
+
+            await Actual.Should().ThrowAsync<ArgumentNullException>();
         }
 
         //When we supply null value as Person Name, it should throw ArgumentException
@@ -43,13 +75,23 @@ namespace CrudTest
         public async Task AddPerson_PersonNameIsNull()
         {
             //Arrange
-            PersonForCreateDTO? personForCreateDTO = new() { Name = null };
+            PersonForCreateDTO? personForCreateDTO = _fixture.Build<PersonForCreateDTO>()
+            .With(c => c.Name, null as string).Create();
 
-            //Act
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
-             {
-                 await _personsService.AddPerson(personForCreateDTO);
-             });
+            var Expected = personForCreateDTO.ToPerson();
+
+            _personRepositoryMock.Setup(p => p.AddPerson(It.IsAny<Person>())).ReturnsAsync(Expected);
+            //Act Using Assert Class
+            //await Assert.ThrowsAsync<ArgumentException>(async () =>
+            // {
+            //     await _personsService.AddPerson(personForCreateDTO);
+            // });
+            var Actual = async () =>
+            {
+                await _personsService.AddPerson(personForCreateDTO);
+            };
+
+            await Actual.Should().ThrowAsync<ArgumentException>();
         }
 
         //When we supply proper person details, it should insert the person into the persons list; 	and it should return an object of PersonForReturnDTO, which includes with the newly 	generated person id
@@ -57,17 +99,29 @@ namespace CrudTest
         public async Task AddPerson_ProperPersonDetails()
         {
             //Arrange
-            PersonForCreateDTO? personForCreateDTO = new PersonForCreateDTO() { Name = "Person 	name...", Email = "person@example.com", CountryId = Guid.NewGuid(), Gender = GenderOptions.Male, DateOfBirth = DateTime.Parse("2000-01-01"), ReceiveEmails = true };
+            //Create Methode Genrata Rondam Values
+            //PersonForCreateDTO? personForCreateDTO = _fixture.Create<PersonForCreateDTO>();
 
+            var PersonForCreate = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").Create();
+
+            var Person = PersonForCreate.ToPerson();
+            var expected = Person.ToPersonForReturn();
+            _personRepositoryMock.Setup(c => c.AddPerson(It.IsAny<Person>()))
+                .ReturnsAsync(Person);
+
+            //new PersonForCreateDTO() { Name = "Person 	name...", Email = "person@example.com", CountryId = Guid.NewGuid(), Gender = GenderOptions.Male, DateOfBirth = DateTime.Parse("2000-01-01"), ReceiveEmails = true };
             //Act
-            PersonForReturnDTO personForReturnDTO_from_add = await _personsService.AddPerson(personForCreateDTO);
 
-            List<PersonForReturnDTO> persons_list = await _personsService.GetAllPerson();
+            PersonForReturnDTO personForReturnDTO_from_add = await _personsService.AddPerson(PersonForCreate);
 
-            //Assert
-            Assert.True(personForReturnDTO_from_add.Id != Guid.Empty);
+            expected.Id = personForReturnDTO_from_add.Id;
+            //List<PersonForReturnDTO> persons_list = await _personsService.GetAllPerson();
 
-            Assert.Contains(personForReturnDTO_from_add, persons_list);
+            personForReturnDTO_from_add.Id.Should().NotBe(Guid.Empty);
+            //Assert.True(personForReturnDTO_from_add.Id != Guid.Empty);
+            personForReturnDTO_from_add.Should().Be(expected);
+            //Assert.Contains(personForReturnDTO_from_add, persons_list);
+            //persons_list.Should().Contain(personForReturnDTO_from_add);
         }
 
         #endregion AddPerson
@@ -78,11 +132,17 @@ namespace CrudTest
         [Fact]
         public async Task GetAllPersons_EmptyList()
         {
+            var Persons = new List<Person>();
+
+            _personRepositoryMock.Setup(p => p.GetAllPersons())
+                .ReturnsAsync(Persons);
+
             //Act
             List<PersonForReturnDTO> persons_from_get = await _personsService.GetAllPerson();
 
             //Assert
-            Assert.Empty(persons_from_get);
+            //Assert.Empty(persons_from_get);
+            persons_from_get.Should().BeEmpty();
         }
 
         //First, we will add few persons; and then when we call GetAllPersons(), it should return the same persons that were added
@@ -90,36 +150,69 @@ namespace CrudTest
         public async Task GetAllPersons_AddFewPersons()
         {
             //Arrange
-            CountryForCreateDto countryForCreate_1 = new() { Name = "Egypt" };
-            CountryForCreateDto countryForCreate_2 = new() { Name = "Jordan" };
+            //CountryForCreateDto countryForCreate_1 = _fixture.Create<CountryForCreateDto>();
+            //CountryForCreateDto countryForCreate_2 = _fixture.Create<CountryForCreateDto>();
 
-            CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
-            CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
+            //CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
+            //CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
 
-            PersonForCreateDTO personForCreate_1 = new() { Name = "Saad", Email = "sa@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_2.Id, DateOfBirth = DateTime.Parse("1979-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_1 = _fixture.Build<PersonForCreateDTO>()
+            //    .With(e => e.Email, "Ahmed@gmail.com")
+            //    .With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            PersonForCreateDTO personForCreate_2 = new() { Name = "Muhammad", Email = "ma@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1981-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_2 = _fixture.Build<PersonForCreateDTO>()
+            //    .With(e => e.Email, "ali@gmail.com")
+            //    .With(c => c.CountryId, countryForReturn_2.Id).Create();
 
-            PersonForCreateDTO personForCreate_3 = new() { Name = "Amany", Email = "am@email.com", Gender = GenderOptions.Female, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1982-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_3 = _fixture.Build<PersonForCreateDTO>()
+            //    .With(e => e.Email, "Sara@gmail.com")
+            //    .With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
+            //List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
 
-            List<PersonForReturnDTO> personForReturn_list_from_add = new();
+            //List<PersonForReturnDTO> personForReturn_list_from_add = new();
 
-            foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //{
+            //    PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
+            //    personForReturn_list_from_add.Add(personForReturnDTO);
+            //}
+
+            var persons = new List<Person>()
             {
-                PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
-                personForReturn_list_from_add.Add(personForReturnDTO);
-            }
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+            };
+
+            var expectedlist = persons.Select(c => c.ToPersonForReturn()).ToList();
+
+            _personRepositoryMock.Setup(p => p.GetAllPersons())
+                .ReturnsAsync(persons);
+
+            //Display expected data
+            _testOutputHelper.WriteLine("Expected data:");
+            expectedlist.ForEach(p =>
+            {
+                _testOutputHelper.WriteLine(p.ToString());
+            });
 
             //Act
             List<PersonForReturnDTO> persons_list_from_get = await _personsService.GetAllPerson();
+            //Display actual data
+            _testOutputHelper.WriteLine("Actual data:");
+            persons_list_from_get.ForEach(p =>
+            {
+                _testOutputHelper.WriteLine(p.ToString());
+            });
 
             //Assert
-            foreach (PersonForReturnDTO personForReturnDTO_from_add in personForReturn_list_from_add)
+            foreach (PersonForReturnDTO personForReturnDTO_from_add in persons_list_from_get)
             {
-                Assert.Contains(personForReturnDTO_from_add, persons_list_from_get);
+                //Assert.Contains(personForReturnDTO_from_add, persons_list_from_get);
+                persons_list_from_get.Should().Contain(personForReturnDTO_from_add);
             }
+            persons_list_from_get.Should().BeEquivalentTo(expectedlist);
         }
 
         #endregion GetAllPersons
@@ -129,16 +222,17 @@ namespace CrudTest
         [Fact]
         public async Task GetPersonById()
         {
-            var CountryforCreate = new CountryForCreateDto { Name = " Egypt" };
-            var Country = await _countriesService.AddCountry(CountryforCreate);
+            //var CountryforCreate = _fixture.Create<CountryForCreateDto>();
 
-            var PersonforCreate = new PersonForCreateDTO { CountryId = Country.Id, DateOfBirth = new DateTime(), Email = "Examle@gmail.com", Gender = GenderOptions.Male, Name = "Ahmed", ReceiveEmails = true };
+            var Person = _fixture.Build<Person>().With(c => c.Country, null as Country).With(c => c.Email, "Email@gmail.com").Create();
 
-            var expected = await _personsService.AddPerson(PersonforCreate);
+            var expected = Person.ToPersonForReturn();
 
             _testOutputHelper.WriteLine("Expected Data : ");
 
             _testOutputHelper.WriteLine(expected.ToString());
+
+            _personRepositoryMock.Setup(p => p.GetPersonById(It.IsAny<Guid>())).ReturnsAsync(Person);
 
             var Actual = await _personsService.GetPersonById(expected.Id);
 
@@ -146,7 +240,8 @@ namespace CrudTest
 
             _testOutputHelper.WriteLine(Actual.ToString());
 
-            Assert.Equal(expected, Actual);
+            //Assert.Equal(expected, Actual);
+            Actual.Should().Be(expected);
         }
 
         #endregion GetPersonById
@@ -158,31 +253,45 @@ namespace CrudTest
         public async Task GetFilteredPersons_EmptySearchText()
         {
             //Arrange
-            CountryForCreateDto countryForCreate_1 = new() { Name = "Egypt" };
-            CountryForCreateDto countryForCreate_2 = new() { Name = "Jordan" };
+            //CountryForCreateDto countryForCreate_1 = _fixture.Create<CountryForCreateDto>();
+            //CountryForCreateDto countryForCreate_2 = _fixture.Create<CountryForCreateDto>();
 
-            CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
-            CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
+            //CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
+            //CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
 
-            PersonForCreateDTO personForCreate_1 = new() { Name = "Saad", Email = "sa@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_2.Id, DateOfBirth = DateTime.Parse("1979-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_1 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            PersonForCreateDTO personForCreate_2 = new() { Name = "Muhammad", Email = "ma@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1981-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_2 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            PersonForCreateDTO personForCreate_3 = new() { Name = "Amany", Email = "am@email.com", Gender = GenderOptions.Female, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1982-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_3 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
+            //List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
 
-            List<PersonForReturnDTO> personForReturn_list_from_add = new();
+            //List<PersonForReturnDTO> personForReturn_list_from_add = new();
 
-            foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //{
+            //    PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
+            //    personForReturn_list_from_add.Add(personForReturnDTO);
+            //}
+            var persons = new List<Person>()
             {
-                PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
-                personForReturn_list_from_add.Add(personForReturnDTO);
-            }
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+            };
+
+            var expectedlist = persons.Select(c => c.ToPersonForReturn()).ToList();
+
+            _personRepositoryMock.Setup(p => p.GetAllPersons())
+                .ReturnsAsync(persons);
+
+            _personRepositoryMock.Setup(p => p.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>()))
+                .ReturnsAsync(persons);
 
             //Display Expected Data
             _testOutputHelper.WriteLine("Expected:");
-            personForReturn_list_from_add.ForEach(p =>
+            expectedlist.ForEach(p =>
             {
                 _testOutputHelper.WriteLine(p.ToString());
             });
@@ -198,10 +307,13 @@ namespace CrudTest
             });
 
             //Assert
-            foreach (PersonForReturnDTO personForReturnDTO_from_add in personForReturn_list_from_add)
-            {
-                Assert.Contains(personForReturnDTO_from_add, persons_list_from_search);
-            }
+            //foreach (PersonForReturnDTO personForReturnDTO_from_add in personForReturn_list_from_add)
+            //{
+            //    //Assert.Contains(personForReturnDTO_from_add, persons_list_from_search);
+            //    persons_list_from_search.Should().Contain(personForReturnDTO_from_add);
+            //}
+
+            expectedlist.Should().BeEquivalentTo(persons_list_from_search);
         }
 
         //First we will add few persons; and then we will search based on person name with some search string. It should return the matching persons
@@ -209,31 +321,46 @@ namespace CrudTest
         public async Task GetFilteredPersons_SearchByPersonName()
         {
             //Arrange
-            CountryForCreateDto countryForCreate_1 = new() { Name = "Egypt" };
-            CountryForCreateDto countryForCreate_2 = new() { Name = "Jordan" };
+            //CountryForCreateDto countryForCreate_1 = _fixture.Create<CountryForCreateDto>();
+            //CountryForCreateDto countryForCreate_2 = _fixture.Create<CountryForCreateDto>();
 
-            CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
-            CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
+            //CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
+            //CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
 
-            PersonForCreateDTO personForCreate_1 = new() { Name = "Saad", Email = "sa@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_2.Id, DateOfBirth = DateTime.Parse("1979-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_1 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            PersonForCreateDTO personForCreate_2 = new() { Name = "Muhammad", Email = "ma@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1981-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_2 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            PersonForCreateDTO personForCreate_3 = new() { Name = "Amany", Email = "am@email.com", Gender = GenderOptions.Female, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1982-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_3 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
+            //List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
 
-            List<PersonForReturnDTO> personForReturn_list_from_add = new();
+            //List<PersonForReturnDTO> personForReturn_list_from_add = new();
 
-            foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //{
+            //    PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
+            //    personForReturn_list_from_add.Add(personForReturnDTO);
+            //}
+
+            var persons = new List<Person>()
             {
-                PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
-                personForReturn_list_from_add.Add(personForReturnDTO);
-            }
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+            };
+
+            var expectedlist = persons.Select(c => c.ToPersonForReturn()).ToList();
+
+            _personRepositoryMock.Setup(p => p.GetAllPersons())
+                .ReturnsAsync(persons);
+
+            _personRepositoryMock.Setup(p => p.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>()))
+                .ReturnsAsync(persons);
 
             //Display Expected Data
             _testOutputHelper.WriteLine("Expected:");
-            personForReturn_list_from_add.ForEach(p =>
+            expectedlist.ForEach(p =>
             {
                 _testOutputHelper.WriteLine(p.ToString());
             });
@@ -248,17 +375,19 @@ namespace CrudTest
                 _testOutputHelper.WriteLine(p.ToString());
             });
 
+            persons_list_from_search.Should().BeEquivalentTo(expectedlist);
             //Assert
-            foreach (PersonForReturnDTO personForReturnDTO_from_add in personForReturn_list_from_add)
-            {
-                if (personForReturnDTO_from_add.Name != null)
-                {
-                    if (personForReturnDTO_from_add.Name.StartsWith("am", StringComparison.OrdinalIgnoreCase))
-                    {
-                        Assert.Contains(personForReturnDTO_from_add, persons_list_from_search);
-                    }
-                }
-            }
+            //foreach (PersonForReturnDTO personForReturnDTO_from_add in personForReturn_list_from_add)
+            //{
+            //    if (personForReturnDTO_from_add.Name != null)
+            //    {
+            //        if (personForReturnDTO_from_add.Name.StartsWith("am", StringComparison.OrdinalIgnoreCase))
+            //        {
+            //            //Assert.Contains(personForReturnDTO_from_add, persons_list_from_search);
+            //            persons_list_from_search.Should().Contain(personForReturnDTO_from_add);
+            //        }
+            //    }
+            //}
         }
 
         #endregion GetFilteredPersons
@@ -270,34 +399,47 @@ namespace CrudTest
         public async Task GetSortedPersons()
         {
             //Arrange
-            CountryForCreateDto countryForCreate_1 = new() { Name = "Egypt" };
-            CountryForCreateDto countryForCreate_2 = new() { Name = "Jordan" };
+            //CountryForCreateDto countryForCreate_1 = _fixture.Create<CountryForCreateDto>();
+            //CountryForCreateDto countryForCreate_2 = _fixture.Create<CountryForCreateDto>();
 
-            CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
-            CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
+            //CountryForReturnDto countryForReturn_1 = await _countriesService.AddCountry(countryForCreate_1);
+            //CountryForReturnDto countryForReturn_2 = await _countriesService.AddCountry(countryForCreate_2);
 
-            PersonForCreateDTO personForCreate_1 = new() { Name = "Saad", Email = "sa@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_2.Id, DateOfBirth = DateTime.Parse("1979-01-01"), ReceiveEmails = true };
+            //PersonForCreateDTO personForCreate_1 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
+            //PersonForCreateDTO personForCreate_2 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
+            //PersonForCreateDTO personForCreate_3 = _fixture.Build<PersonForCreateDTO>().With(c => c.Email, "Email@gmail.com").With(c => c.CountryId, countryForReturn_1.Id).Create();
 
-            PersonForCreateDTO personForCreate_2 = new() { Name = "Muhammad", Email = "ma@email.com", Gender = GenderOptions.Male, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1981-01-01"), ReceiveEmails = true };
+            //List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
 
-            PersonForCreateDTO personForCreate_3 = new() { Name = "Amany", Email = "am@email.com", Gender = GenderOptions.Female, CountryId = countryForReturn_1.Id, DateOfBirth = DateTime.Parse("1982-01-01"), ReceiveEmails = true };
+            //List<PersonForReturnDTO> personForReturn_list_from_add = new();
 
-            List<PersonForCreateDTO> personForCreate_list = new() { personForCreate_1, personForCreate_2, personForCreate_3 };
-
-            List<PersonForReturnDTO> personForReturn_list_from_add = new();
-
-            foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //foreach (PersonForCreateDTO personForCreate in personForCreate_list)
+            //{
+            //    PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
+            //    personForReturn_list_from_add.Add(personForReturnDTO);
+            //}
+            var persons = new List<Person>()
             {
-                PersonForReturnDTO personForReturnDTO = await _personsService.AddPerson(personForCreate);
-                personForReturn_list_from_add.Add(personForReturnDTO);
-            }
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+                _fixture.Build<Person>().With(c=>c.Country ,null as Country).With(c=>c.Email,"Emil@gmail.com").Create(),
+            };
+
+            var expectedlist = persons.Select(c => c.ToPersonForReturn()).ToList();
+
+            //_personRepositoryMock.Setup(p => p.GetAllPersons())
+            //    .ReturnsAsync(persons);
+
+            //_personRepositoryMock.Setup(p => p.GetFilteredPersons(It.IsAny<Expression<Func<Person, bool>>>()))
+            //    .ReturnsAsync(persons);
 
             //Display Expected Data
             _testOutputHelper.WriteLine("Expected:");
-            personForReturn_list_from_add.ForEach(p =>
+            expectedlist.ForEach(p =>
             {
                 _testOutputHelper.WriteLine(p.ToString());
             });
+            _personRepositoryMock.Setup(c => c.GetAllPersons()).ReturnsAsync(persons);
 
             List<PersonForReturnDTO> allPersons = await _personsService.GetAllPerson();
             //Act
@@ -309,12 +451,17 @@ namespace CrudTest
             {
                 _testOutputHelper.WriteLine(p.ToString());
             });
-            personForReturn_list_from_add = personForReturn_list_from_add.OrderBy(p => p.Name).ToList();
+            //personForReturn_list_from_add = personForReturn_list_from_add.OrderBy(p => p.Name).ToList();
             //Assert
-            for (int i = 0; i < personForReturn_list_from_add.Count; i++)
-            {
-                Assert.Equal(personForReturn_list_from_add[i], persons_list_from_sort[i]);
-            }
+            //for (int i = 0; i < personForReturn_list_from_add.Count; i++)
+            //{
+            //    //Assert.Equal(personForReturn_list_from_add[i], persons_list_from_sort[i]);
+
+            //    persons_list_from_sort[i].Should().Be(personForReturn_list_from_add[i]);
+            //}
+            persons_list_from_sort.Should().BeInAscendingOrder(c => c.Name);
+
+            persons_list_from_sort.Should().BeEquivalentTo(expectedlist);
         }
 
         #endregion GetSortedPersons
@@ -329,11 +476,19 @@ namespace CrudTest
             PersonForUpdateDTO? personForUpdateDTO = null;
 
             //Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            //await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            //{
+            //    //Act
+            //    await _personsService.UpdatePerson(personForUpdateDTO);
+            //});
+
+            var Actual = async () =>
             {
                 //Act
                 await _personsService.UpdatePerson(personForUpdateDTO);
-            });
+            };
+
+            await Actual.Should().ThrowAsync<ArgumentNullException>();
         }
 
         //When we supply invalid person id, it should throw ArgumentException
@@ -341,14 +496,21 @@ namespace CrudTest
         public async Task UpdatePerson_InvalidPersonID()
         {
             //Arrange
-            PersonForUpdateDTO? personForUpdateDTO = new() { ID = Guid.NewGuid() };
+            PersonForUpdateDTO? personForUpdateDTO = _fixture.Create<PersonForUpdateDTO>();
 
             //Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
-               {
-                   //Act
-                   await _personsService.UpdatePerson(personForUpdateDTO);
-               });
+            //await Assert.ThrowsAsync<ArgumentException>(async () =>
+            //   {
+            //       //Act
+            //       await _personsService.UpdatePerson(personForUpdateDTO);
+            //   });
+
+            var actual = async () =>
+            {
+                //Act
+                await _personsService.UpdatePerson(personForUpdateDTO);
+            };
+            await actual.Should().ThrowAsync<ArgumentException>();
         }
 
         //Validations
@@ -357,22 +519,36 @@ namespace CrudTest
         public async Task UpdatePerson_PersonNameIsNull()
         {
             //Arrange
-            CountryForCreateDto countryForCreateDTO = new() { Name = "Egypt" };
-            CountryForReturnDto countryForReturnDTO = await _countriesService.AddCountry(countryForCreateDTO);
+            //CountryForCreateDto countryForCreateDTO = _fixture.Create<CountryForCreateDto>();
+            //CountryForReturnDto countryForReturnDTO = await _countriesService.AddCountry(countryForCreateDTO);
 
-            PersonForCreateDTO personForCreateDTO = new() { Name = "Amir", CountryId = countryForReturnDTO.Id, Email = "amir@email.com", Gender = GenderOptions.Male };
+            //PersonForCreateDTO personForCreateDTO = _fixture.Build<PersonForCreateDTO>().With(c => c.CountryId, countryForReturnDTO.Id).With(c => c.Email, "Email@gmail.com").Create();
 
-            PersonForReturnDTO personForReturnDTO_from_add = await _personsService.AddPerson(personForCreateDTO);
+            //PersonForReturnDTO personForReturnDTO_from_add = await _personsService.AddPerson(personForCreateDTO);
 
-            PersonForUpdateDTO personForUpdateDTO = personForReturnDTO_from_add.ToPersonForUpdateDTO();
-            personForUpdateDTO.Name = null;
+            //PersonForUpdateDTO personForUpdateDTO = personForReturnDTO_from_add.ToPersonForUpdateDTO();
+            var person = _fixture.Build<Person>()
+                .With(c => c.Country, null as Country)
+                .With(c => c.Email, "Emil@gmail.com")
+                .With(c => c.Gender, "Male")
+                .With(c => c.Name, null as string).Create();
 
+            var expcted = person.ToPersonForReturn();
+
+            var PersonForUpdate = expcted.ToPersonForUpdateDTO();
             //Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
-             {
-                 //Act
-                 await _personsService.UpdatePerson(personForUpdateDTO);
-             });
+            //await Assert.ThrowsAsync<ArgumentException>(async () =>
+            //{
+            //    //Act
+            //    await _personsService.UpdatePerson(personForUpdateDTO);
+            //});
+
+            var Actual = async () =>
+            {
+                //Act
+                await _personsService.UpdatePerson(PersonForUpdate);
+            };
+            await Actual.Should().ThrowAsync<ArgumentException>();
         }
 
         //First, add a new person and try to update the person name,email,gender
@@ -380,32 +556,49 @@ namespace CrudTest
         public async Task UpdatePerson_PersonFullDetailsUpdate()
         {
             //Arrange
-            CountryForCreateDto countryForCreateDTO = new() { Name = "Egypt" };
-            CountryForReturnDto countryForReturnDTO = await _countriesService.AddCountry(countryForCreateDTO);
+            //CountryForCreateDto countryForCreateDTO = _fixture.Create<CountryForCreateDto>();
+            //CountryForReturnDto countryForReturnDTO = await _countriesService.AddCountry(countryForCreateDTO);
 
-            PersonForCreateDTO personForCreateDTO = new() { Name = "Amir", CountryId = countryForReturnDTO.Id, Email = "amir@email.com", Gender = GenderOptions.Male };
+            //PersonForCreateDTO personForCreateDTO = _fixture.Build<PersonForCreateDTO>().With(c => c.CountryId, countryForReturnDTO.Id).With(c => c.Email, "email@gmail.com").Create();
 
-            PersonForReturnDTO personForReturnDTO_from_add = await _personsService.AddPerson(personForCreateDTO);
+            //PersonForReturnDTO personForReturnDTO_from_add = await _personsService.AddPerson(personForCreateDTO);
 
-            //Display Person before update
-            _testOutputHelper.WriteLine("Person before update:");
-            _testOutputHelper.WriteLine(personForReturnDTO_from_add.ToString());
+            ////Display Person before update
+            //_testOutputHelper.WriteLine("Person before update:");
+            //_testOutputHelper.WriteLine(personForReturnDTO_from_add.ToString());
 
-            PersonForUpdateDTO PersonForUpdateDTO = personForReturnDTO_from_add.ToPersonForUpdateDTO();
-            PersonForUpdateDTO.Name = "Amany";
-            PersonForUpdateDTO.Email = "amany@email.com";
-            PersonForUpdateDTO.Gender = GenderOptions.Female;
+            //PersonForUpdateDTO PersonForUpdateDTO = personForReturnDTO_from_add.ToPersonForUpdateDTO();
+            //PersonForUpdateDTO.Name = "Amany";
+            //PersonForUpdateDTO.Email = "amany@email.com";
+            //PersonForUpdateDTO.Gender = GenderOptions.Female;
 
-            //Act
-            PersonForReturnDTO personForReturnDTO_from_update = await _personsService.UpdatePerson(PersonForUpdateDTO);
+            ////Act
+            //PersonForReturnDTO personForReturnDTO_from_update = await _personsService.UpdatePerson(PersonForUpdateDTO);
 
-            PersonForReturnDTO? personForReturnDTO_from_get = await _personsService.GetPersonById(personForReturnDTO_from_update.Id);
+            //PersonForReturnDTO? personForReturnDTO_from_get = await _personsService.GetPersonById(personForReturnDTO_from_update.Id);
+            var person = _fixture.Build<Person>()
+               .With(c => c.Country, null as Country)
+               .With(c => c.Email, "Emil@gmail.com")
+               .With(c => c.Gender, "Male").Create();
+
+            var expcted = person.ToPersonForReturn();
+
+            var PersonForUpdate = expcted.ToPersonForUpdateDTO();
+
+            _personRepositoryMock.Setup(p => p.UpdatePerson(It.IsAny<Person>()))
+                .ReturnsAsync(person);
+            _personRepositoryMock.Setup(p => p.GetPersonById(It.IsAny<Guid>()))
+                .ReturnsAsync(person);
 
             //Display Person after update
             _testOutputHelper.WriteLine("Person after update:");
-            _testOutputHelper.WriteLine(personForReturnDTO_from_get!.ToString());
+            _testOutputHelper.WriteLine(expcted!.ToString());
+
+            var Actual = await _personsService.UpdatePerson(PersonForUpdate);
             //Assert
-            Assert.Equal(personForReturnDTO_from_get, personForReturnDTO_from_update);
+
+            //Assert.Equal(personForReturnDTO_from_get, personForReturnDTO_from_update);
+            Actual.Should().Be(expcted);
         }
 
         #endregion UpdatePerson
@@ -420,7 +613,8 @@ namespace CrudTest
             bool isDeleted = await _personsService.RemovePerson(Guid.NewGuid());
 
             //Assert
-            Assert.False(isDeleted);
+            //Assert.False(isDeleted);
+            isDeleted.Should().BeFalse();
         }
 
         //If you supply an valid Person ID, it should return true
@@ -428,18 +622,24 @@ namespace CrudTest
         public async Task DeletePerson_ValidPersonID()
         {
             //Arrange
-            CountryForCreateDto countryForCreateDTO = new() { Name = "Egypt" };
-            CountryForReturnDto CountryForReturnDTO_from_add = await _countriesService.AddCountry(countryForCreateDTO);
+            var person = _fixture.Build<Person>()
+                  .With(c => c.Country, null as Country)
+                  .With(c => c.Email, "Emil@gmail.com")
+                  .With(c => c.Gender, "Male")
+                  .With(c => c.Name, null as string).Create();
 
-            PersonForCreateDTO personForCreateDTO = new() { Name = "Ahmed", CountryId = CountryForReturnDTO_from_add.Id, DateOfBirth = Convert.ToDateTime("2010-01-01"), Email = "ahmed@email.com", Gender = GenderOptions.Male, ReceiveEmails = true };
+            _personRepositoryMock.Setup(c => c.GetPersonById(It.IsAny<Guid>()))
+                .ReturnsAsync(person);
 
-            PersonForReturnDTO PersonForReturnDTO_from_add = await _personsService.AddPerson(personForCreateDTO);
+            _personRepositoryMock.Setup(c => c.DeletePersonById(It.IsAny<Guid>()))
+                .ReturnsAsync(true);
 
             //Act
-            bool isDeleted = await _personsService.RemovePerson(PersonForReturnDTO_from_add.Id);
+            bool isDeleted = await _personsService.RemovePerson(person.Id);
 
             //Assert
-            Assert.True(isDeleted);
+            //Assert.True(isDeleted);
+            isDeleted.Should().BeTrue();
         }
 
         #endregion DeletePerson

@@ -1,5 +1,10 @@
-﻿using Entities;
+﻿using AutoFixture;
+using Entities;
+using EntityFrameworkCoreMock;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
+using RepositoryContacts;
 using ServiceContract.DTOs;
 using ServiceContract.Interfaces;
 using Services;
@@ -8,11 +13,23 @@ namespace CrudTest
 {
     public class CountriesServiceTest
     {
+        private readonly Mock<ICountriesRepository> _CountriesRepositoryMock;
+        private readonly ICountriesRepository _CountriesRepository;
+        private readonly IFixture _Fixture;
         private readonly ICountriesService _countriesService;
 
         public CountriesServiceTest()
         {
-            _countriesService = new CountriesService(new Entities.CrudDbContext(new DbContextOptionsBuilder<CrudDbContext>().Options));
+            //var CountriesInitialData = new List<Country>();
+            ////var DbContext = new Entities.CrudDbContext(new DbContextOptionsBuilder<CrudDbContext>().Options);=>Real DbContext
+            //DbContextMock<CrudDbContext> dbContextMock = new(new DbContextOptionsBuilder<CrudDbContext>().Options);//Not Real DbContext||dbContextMock
+
+            //dbContextMock.CreateDbSetMock(dbcontext => dbcontext.Countries, CountriesInitialData);
+
+            _CountriesRepositoryMock = new Mock<ICountriesRepository>();
+            _CountriesRepository = _CountriesRepositoryMock.Object;
+            _Fixture = new Fixture();
+            _countriesService = new CountriesService(_CountriesRepository);//Not Real DbContext
         }
 
         #region AddCountry
@@ -55,6 +72,12 @@ namespace CrudTest
             CountryForCreateDto? countryForCreateDTO1 = new CountryForCreateDto() { Name = "Egypt" };
             CountryForCreateDto? countryForCreateDTO2 = new CountryForCreateDto() { Name = "Egypt" };
 
+            _CountriesRepositoryMock.Setup(c => c.AddCountry(It.IsAny<Country>()))
+                .ReturnsAsync(countryForCreateDTO1.ToCountry());
+
+            _CountriesRepositoryMock.Setup(c => c.GetCountryByName(It.IsAny<string>()))
+                .ReturnsAsync(countryForCreateDTO2.ToCountry());
+
             //Assert
             await Assert.ThrowsAsync<ArgumentException>(async () =>
              {
@@ -62,6 +85,12 @@ namespace CrudTest
                  await _countriesService.AddCountry(countryForCreateDTO1);
                  await _countriesService.AddCountry(countryForCreateDTO2);
              });
+            var Actual = async () =>
+            {
+                //Act
+                await _countriesService.AddCountry(countryForCreateDTO1);
+                await _countriesService.AddCountry(countryForCreateDTO2);
+            };
         }
 
         //When you supply proper country name, it should insert (add) the country to the existing list of countries
@@ -73,11 +102,10 @@ namespace CrudTest
 
             //Act
             CountryForReturnDto countryForReturnDTO = await _countriesService.AddCountry(countryForCreateDTO);
-            List<CountryForReturnDto> actual_CountryForReturnDto_List = await _countriesService.GetAllCoutries();
 
             //Assert
             Assert.True(countryForReturnDTO.Id != Guid.Empty);
-            Assert.Contains(countryForReturnDTO, actual_CountryForReturnDto_List);
+
             //actual_CountryForReturnDto_List.ForEach(ac => Assert.Equivalent(ac, countryForReturnDTO));
         }
 
@@ -89,28 +117,30 @@ namespace CrudTest
         public async Task GetAllCountries_EmptyList()
         {
             //Act
+            var list = new List<Country>();
+            _CountriesRepositoryMock.Setup(c => c.GetAllCountries()).ReturnsAsync(list);
+
             List<CountryForReturnDto> actualCountryForReturnList = await _countriesService.GetAllCoutries();
 
             //Assert
-            Assert.Empty(actualCountryForReturnList);
+            actualCountryForReturnList.Should().BeEmpty();
         }
 
         [Fact]
         public async Task GetAllCountries_AddFewCountries()
         {
             //Arrange
-            List<CountryForCreateDto> countryForCreateList = new() {
+            List<Country> Countries = new() {
                     new(){ Name = "Iraq" },
                     new(){ Name = "Syria" }};
+
             //Act  expected CountryForReturnDto List
-            List<CountryForReturnDto> expected_countryForReturnDTO_List = new();
+            List<CountryForReturnDto> expected_countryForReturnDTO_List = Countries.Select(c => c.ToCountryForReturn()).ToList();
 
-            countryForCreateList.ForEach(async cf => expected_countryForReturnDTO_List.Add(await _countriesService.AddCountry(cf)));
-
+            _CountriesRepositoryMock.Setup(c => c.GetAllCountries()).ReturnsAsync(Countries);
             List<CountryForReturnDto> actual_CountryForReturnDto_List = await _countriesService.GetAllCoutries();
 
-            //Check that actual_CountryForReturnDto_List contains All expected_countryForReturn_List items
-            expected_countryForReturnDTO_List.ForEach(ec => Assert.Contains(ec, actual_CountryForReturnDto_List));
+            actual_CountryForReturnDto_List.Should().BeEquivalentTo(expected_countryForReturnDTO_List);
         }
 
         #endregion GetAllCountries
@@ -134,16 +164,25 @@ namespace CrudTest
         public async Task GetCountryByID_ValidId()
         {
             //Arrange
-            CountryForCreateDto? countryForCreateDTO = new() { Name = "Libya" };
-            CountryForReturnDto countryForReturnDTO_From_Add = await _countriesService.AddCountry(countryForCreateDTO);
+            Country Country = _Fixture.Create<Country>();
+
+            var expectd = Country.ToCountryForReturn();
+
+            _CountriesRepositoryMock.Setup(c => c.GetCountryById(It.IsAny<Guid>())).ReturnsAsync(Country);
 
             //Act
-            CountryForReturnDto? countryForReturnDTO_From_Get = await _countriesService.GetCountryById(countryForReturnDTO_From_Add.Id);
+            CountryForReturnDto? actual = await _countriesService.GetCountryById(Country.Id);
 
-            //Assert
-            Assert.Equal(countryForReturnDTO_From_Add, countryForReturnDTO_From_Get);
+            actual.Should().Be(expectd);
         }
 
         #endregion GetCountryById
     }
 }
+
+/*
+ Isolate Tests
+Downlaod Moq
+Downlaod EFCoremock.moq
+set all Dbset option to fake and ovrride it
+ */
