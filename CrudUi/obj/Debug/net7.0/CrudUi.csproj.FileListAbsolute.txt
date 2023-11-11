@@ -84,3 +84,14 @@ C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\RepositoryContacts.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Repositories.pdb
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\RepositoryContacts.pdb
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.AspNetCore.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Extensions.Hosting.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Extensions.Logging.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Formatting.Compact.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Settings.Configuration.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Sinks.Debug.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Sinks.File.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Sinks.MSSqlServer.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\bin\Debug\net7.0\Serilog.Sinks.PeriodicBatching.dll

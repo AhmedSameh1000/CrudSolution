@@ -1,0 +1,22 @@
+2023-11-11 16:55:04.256 +02:00 [INF] Update Action Methode in Person Controller
+2023-11-11 16:55:04.899 +02:00 [INF] Executed DbCommand (17ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[Id], [p].[CountryId], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[Name], [p].[ReceiveEmails], [c].[Id], [c].[Name]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryId] = [c].[Id]
+WHERE [p].[Id] = @__id_0
+2023-11-11 16:55:07.034 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Name]
+FROM [Countries] AS [c]
+2023-11-11 16:55:07.040 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:55:07.041 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:55:12.377 +02:00 [INF] Executing ViewResult, running view Update.
+2023-11-11 16:55:12.450 +02:00 [INF] Executed ViewResult - view Update executed in 74.3595ms.
+2023-11-11 16:55:13.374 +02:00 [INF] Executed action CrudUi.Controllers.PersonController.Update (CrudUi) in 14985.4987ms
+2023-11-11 16:55:13.375 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.PersonController.Update (CrudUi)'
+2023-11-11 16:55:13.385 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/Person/Update/06d15bad-52f4-498e-b478-acad847abfaa - - - 200 - text/html;+charset=utf-8 15011.2607ms
+2023-11-11 16:55:13.389 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-11 16:55:13.390 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 1.4486ms
+2023-11-11 16:55:13.403 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-11 16:55:13.416 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.8799ms
+2023-11-11 16:55:56.397 +02:00 [INF] Request starting HTTP/2 POST https://localhost:7013/Person/Update/06d15bad-52f4-498e-b478-acad847abfaa application/x-www-form-urlencoded 389
+2023-11-11 16:55:56.407 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.PersonController.Update (CrudUi)'

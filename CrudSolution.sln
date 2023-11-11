@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudUi", "CrudUi\CrudUi.csproj", "{2A58026F-94CC-45DD-986A-C550F7D73C1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContacts", "RepositoryContacts\RepositoryContacts.csproj", "{9078466A-B039-4A66-8193-523E6F88CD4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryContacts", "RepositoryContacts\RepositoryContacts.csproj", "{9078466A-B039-4A66-8193-523E6F88CD4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{D1DF0450-D35B-4172-94C1-BACE0D5D9AAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{D1DF0450-D35B-4172-94C1-BACE0D5D9AAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

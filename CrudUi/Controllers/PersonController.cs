@@ -1,30 +1,51 @@
-﻿using Entities;
+﻿using CrudUi.Filter.ActionFilter;
+using CrudUi.Filter.ResourceFilters;
+using CrudUi.Filter.ResultFilters;
+using CrudUi.Filters.AutherizationFilters;
+using CrudUi.Filters.ExceptionFilters;
+using CrudUi.Filters.ResultFilters;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using ServiceContract.DTOs;
 using ServiceContract.Enums;
 using ServiceContract.Interfaces;
 using Services;
+using System.Globalization;
 
 namespace CrudUi.Controllers
 {
+    //Glopal Filter for all methode
+    [TypeFilter(typeof(ResponseHeaderActionFilter),
+           Arguments = new object[] { "Controler-key", "Controler-value" })]
+    [TypeFilter(typeof(HandelExceptionFilter))]
     public class PersonController : Controller
     {
         private readonly ICountriesService _countriesService;
         private readonly IPersonService _personService;
+        private readonly ILogger<PersonController> _logger;
 
         public PersonController(
             ICountriesService countriesService,
-            IPersonService personService)
+            IPersonService personService,
+            ILogger<PersonController> logger)
         {
             _countriesService = countriesService;
             _personService = personService;
+            _logger = logger;
         }
 
         [Route("")]
+        [ServiceFilter(typeof(PersonListActionFilter))]//Service Filter is aservice we should log it in services and its lifetime
+        [TypeFilter(typeof(ResponseHeaderActionFilter),
+            Arguments = new object[] { "Index-key", "Index-value" })]//type filter by default is transient service
+        [TypeFilter(typeof(IndexResultFilter))]
         public async Task<IActionResult> Index(string? searchBy, string? searchString,
             string sortBy = (nameof(PersonForReturnDTO.Name)), SortOrderOptions sortOrder = SortOrderOptions.ASC)
         {
+            _logger.LogInformation("Index Action Methode in Person Controller");
+            _logger.LogDebug($"Sort By{sortBy} || Sort Order {sortOrder}");
             ViewBag.SearchFields = new Dictionary<string, string>()
             {
                 {nameof(PersonForReturnDTO.Name) ,"Person Name" },
@@ -46,8 +67,11 @@ namespace CrudUi.Controllers
 
         [Route("Person/Create")]
         [HttpGet]
+        [TypeFilter(typeof(ResponseHeaderActionFilter),
+            Arguments = new object[] { "create-key", "create-value" })]
         public async Task<IActionResult> Create()
         {
+            _logger.LogInformation("Create Action Methode in Person Controller");
             /*
              Normal way that we pass list to view and loop for and diplay it
               var Countries = _countriesService.GetAllCoutries();
@@ -64,36 +88,40 @@ namespace CrudUi.Controllers
 
         [Route("Person/Create")]
         [HttpPost]
-        public async Task<IActionResult> Create(PersonForCreateDTO personForCreate)
+        [TypeFilter(typeof(ShortSerctingIAsyncActionFilter))]
+        public async Task<IActionResult> Create(PersonForCreateDTO personModel)
         {
-            if (!ModelState.IsValid)
-            {
-                /*
-                Normal way that we pass list to view and loop for and diplay it
-                 var Countries = _countriesService.GetAllCoutries();
-                 ViewBag.Countries = Countries;
-                 */
-                var Countries = await _countriesService.GetAllCoutries();
-                ViewBag.Countries = Countries.Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                });
+            //if (!ModelState.IsValid)
+            //{
+            //    /*
+            //    Normal way that we pass list to view and loop for and diplay it
+            //     var Countries = _countriesService.GetAllCoutries();
+            //     ViewBag.Countries = Countries;
+            //     */
+            //    var Countries = await _countriesService.GetAllCoutries();
+            //    ViewBag.Countries = Countries.Select(c => new SelectListItem()
+            //    {
+            //        Text = c.Name,
+            //        Value = c.Id.ToString(),
+            //    });
 
-                ViewBag.Errors = ModelState.Values.SelectMany(c => c.Errors)
-                    .Select(v => v.ErrorMessage).ToList();
-                return View();
-            }
+            //    ViewBag.Errors = ModelState.Values.SelectMany(c => c.Errors)
+            //        .Select(v => v.ErrorMessage).ToList();
+            //    return View();
+            //}
 
-            await _personService.AddPerson(personForCreate);
+            await _personService.AddPerson(personModel);
 
             return RedirectToAction("Index", "Person");
         }
 
         [Route("Person/Update/{id}")]
         [HttpGet]
+        [TypeFilter(typeof(TokenResultFilter))]
         public async Task<IActionResult> Update(Guid id)
         {
+            _logger.LogInformation("Update Action Methode in Person Controller");
+
             var PersonForReturn = await _personService.GetPersonById(id);
             if (PersonForReturn is null)
             {
@@ -117,40 +145,50 @@ namespace CrudUi.Controllers
 
         [Route("Person/Update/{id}")]
         [HttpPost]
-        public async Task<IActionResult> Update(PersonForUpdateDTO personForCreate)
+        [TypeFilter(typeof(ShortSerctingIAsyncActionFilter))]
+        [TypeFilter(typeof(TokenAutherizationFilter))]
+        public async Task<IActionResult> Update(PersonForUpdateDTO personModel)
         {
-            if (!ModelState.IsValid)
-            {
-                /*
-                Normal way that we pass list to view and loop for and diplay it
-                 var Countries = _countriesService.GetAllCoutries();
-                 ViewBag.Countries = Countries;
-                 */
-                var Countries = await _countriesService.GetAllCoutries();
-                ViewBag.Countries = Countries.Select(c => new SelectListItem()
-                {
-                    Text = c.Name,
-                    Value = c.Id.ToString(),
-                });
+            //if (!ModelState.IsValid)
+            //{
+            //    /*
+            //    Normal way that we pass list to view and loop for and diplay it
+            //     var Countries = _countriesService.GetAllCoutries();
+            //     ViewBag.Countries = Countries;
+            //     */
+            //    var Countries = await _countriesService.GetAllCoutries();
+            //    ViewBag.Countries = Countries.Select(c => new SelectListItem()
+            //    {
+            //        Text = c.Name,
+            //        Value = c.Id.ToString(),
+            //    });
 
-                ViewBag.Errors = ModelState.Values.SelectMany(c => c.Errors)
-                    .Select(v => v.ErrorMessage).ToList();
-                return View();
-            }
+            //    ViewBag.Errors = ModelState.Values.SelectMany(c => c.Errors)
+            //        .Select(v => v.ErrorMessage).ToList();
+            //    return View();
+            //}
 
-            await _personService.UpdatePerson(personForCreate);
+            await _personService.UpdatePerson(personModel);
 
             return RedirectToAction("Index", "Person");
         }
 
         [HttpGet]
         [Route("Person/Delete/{id}")]
+        [TypeFilter(typeof(ResponseHeaderAsyncActionFilter),
+            Arguments = new object[] { "Delete-key", "Delete-value" })]
+        [TypeFilter(typeof(DisabledResourseFilter), Arguments =
+            new object[] { false })]
         public async Task<IActionResult> Delete(Guid id)
         {
+            _logger.LogInformation("Delete Action Methode in Person Controller");
+
             var PersonToDelete = await _personService.GetPersonById(id);
 
             if (PersonToDelete is null)
+            {
                 return RedirectToAction("Index");
+            }
 
             return View(PersonToDelete);
         }

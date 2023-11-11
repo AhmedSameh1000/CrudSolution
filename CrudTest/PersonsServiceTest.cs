@@ -119,7 +119,7 @@ namespace CrudTest
 
             personForReturnDTO_from_add.Id.Should().NotBe(Guid.Empty);
             //Assert.True(personForReturnDTO_from_add.Id != Guid.Empty);
-            personForReturnDTO_from_add.Should().Be(expected);
+            personForReturnDTO_from_add.Should().BeEquivalentTo(expected);
             //Assert.Contains(personForReturnDTO_from_add, persons_list);
             //persons_list.Should().Contain(personForReturnDTO_from_add);
         }

@@ -1,8 +1,6 @@
 ﻿using AutoFixture;
 using Entities;
-using EntityFrameworkCoreMock;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using RepositoryContacts;
 using ServiceContract.DTOs;

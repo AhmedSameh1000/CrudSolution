@@ -1,0 +1,26 @@
+2023-11-11 18:36:51.743 +02:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-11 18:36:51.913 +02:00 [INF] Now listening on: https://localhost:7013
+2023-11-11 18:36:51.914 +02:00 [INF] Now listening on: http://localhost:5290
+2023-11-11 18:36:52.598 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/ - -
+2023-11-11 18:36:52.687 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-11 18:36:52.713 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-11 18:36:52.716 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: No service for type 'CrudUi.Filter.ActionFilter.PersonListActionFilter' has been registered.
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.AspNetCore.Mvc.ServiceFilterAttribute.CreateInstance(IServiceProvider serviceProvider)
+   at Microsoft.AspNetCore.Mvc.Filters.DefaultFilterProvider.ProvideFilter(FilterProviderContext context, FilterItem filterItem)
+   at Microsoft.AspNetCore.Mvc.Filters.DefaultFilterProvider.OnProvidersExecuting(FilterProviderContext context)
+   at Microsoft.AspNetCore.Mvc.Filters.FilterFactory.CreateUncachedFiltersCore(IFilterProvider[] filterProviders, ActionContext actionContext, List`1 filterItems)
+   at Microsoft.AspNetCore.Mvc.Filters.FilterFactory.GetAllFilters(IFilterProvider[] filterProviders, ActionContext actionContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvokerCache.GetCachedResult(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Routing.ControllerRequestDelegateFactory.<>c__DisplayClass12_0.<CreateRequestDelegate>b__0(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2023-11-11 18:36:52.857 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/ - - - 500 - text/html;+charset=utf-8 262.9614ms
+2023-11-11 18:36:52.875 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-11 18:36:52.875 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-11 18:36:52.900 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 24.6715ms
+2023-11-11 18:36:52.907 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 31.8260ms

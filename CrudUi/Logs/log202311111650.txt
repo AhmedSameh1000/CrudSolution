@@ -1,0 +1,72 @@
+2023-11-11 16:50:14.309 +02:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-11 16:50:14.459 +02:00 [INF] Now listening on: https://localhost:7013
+2023-11-11 16:50:14.460 +02:00 [INF] Now listening on: http://localhost:5290
+2023-11-11 16:50:15.504 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/ - -
+2023-11-11 16:50:15.560 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-11 16:50:15.604 +02:00 [INF] Route matched with {action = "Index", controller = "Person"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String, System.String, ServiceContract.Enums.SortOrderOptions) on controller CrudUi.Controllers.PersonController (CrudUi).
+2023-11-11 16:50:15.747 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-11 16:50:15.748 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-11 16:50:15.749 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-11 16:50:15.750 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-11 16:50:15.751 +02:00 [INF] Result Filter Before OnResultExecutionAsync
+2023-11-11 16:50:15.759 +02:00 [INF] Index Action Methode in Person Controller
+2023-11-11 16:50:16.742 +02:00 [INF] Executed DbCommand (28ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CountryId], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[Name], [p].[ReceiveEmails], [c].[Id], [c].[Name]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryId] = [c].[Id]
+2023-11-11 16:50:16.849 +02:00 [INF] Result Filter Before OnResultExecutionAsync
+2023-11-11 16:50:16.850 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:50:16.852 +02:00 [INF] PersonListActionFilter.OnActionExecuted
+2023-11-11 16:50:16.853 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:50:16.853 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:50:16.862 +02:00 [INF] Executing ViewResult, running view Index.
+2023-11-11 16:50:17.088 +02:00 [INF] Executed ViewResult - view Index executed in 227.1556ms.
+2023-11-11 16:50:17.093 +02:00 [INF] Executed action CrudUi.Controllers.PersonController.Index (CrudUi) in 1486.2172ms
+2023-11-11 16:50:17.095 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-11 16:50:17.124 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-11 16:50:17.125 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-11 16:50:17.134 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/ - - - 200 - text/html;+charset=utf-8 1628.6019ms
+2023-11-11 16:50:17.136 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 11.4850ms
+2023-11-11 16:50:17.143 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 17.6919ms
+2023-11-11 16:50:19.628 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/Person/Update/3c12d8e8-3c1c-4f57-b6a4-c8caac893d7a - -
+2023-11-11 16:50:19.633 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.PersonController.Update (CrudUi)'
+2023-11-11 16:50:19.638 +02:00 [INF] Route matched with {action = "Update", controller = "Person"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(System.Guid) on controller CrudUi.Controllers.PersonController (CrudUi).
+2023-11-11 16:50:19.642 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-11 16:50:19.643 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-11 16:50:22.385 +02:00 [INF] Update Action Methode in Person Controller
+2023-11-11 16:50:22.449 +02:00 [INF] Executed DbCommand (16ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [p].[Id], [p].[CountryId], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[Name], [p].[ReceiveEmails], [c].[Id], [c].[Name]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryId] = [c].[Id]
+WHERE [p].[Id] = @__id_0
+2023-11-11 16:50:22.460 +02:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Name]
+FROM [Countries] AS [c]
+2023-11-11 16:50:22.467 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:50:22.467 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-11 16:50:27.226 +02:00 [INF] Executing ViewResult, running view Update.
+2023-11-11 16:50:27.303 +02:00 [INF] Executed ViewResult - view Update executed in 79.123ms.
+2023-11-11 16:50:28.746 +02:00 [INF] Executed action CrudUi.Controllers.PersonController.Update (CrudUi) in 9106.3194ms
+2023-11-11 16:50:28.748 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.PersonController.Update (CrudUi)'
+2023-11-11 16:50:28.751 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_SetCookie(StringValues value)
+   at Microsoft.AspNetCore.Http.ResponseCookies.Append(String key, String value)
+   at CrudUi.Filters.ResultFilters.TokenResultFilter.OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next) in C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi\Filters\ResultFilters\TokenResultFilter.cs:line 10
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeResultFilters>g__Awaited|28_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2023-11-11 16:50:28.766 +02:00 [WRN] The response has already started, the error page middleware will not be executed.
+2023-11-11 16:50:28.784 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/Person/Update/3c12d8e8-3c1c-4f57-b6a4-c8caac893d7a - - - 200 - text/html;+charset=utf-8 9156.2322ms
