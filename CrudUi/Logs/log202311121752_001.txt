@@ -1,0 +1,16 @@
+2023-11-12 17:52:00.720 +02:00 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 17:52:00.728 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:52:00.730 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:52:00.798 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Login (CrudUi) in 74.0056ms
+2023-11-12 17:52:05.657 +02:00 [INF] Route matched with {action = "Register", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Register() on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 17:52:05.660 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:52:05.661 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:52:05.703 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Register (CrudUi) in 44.7672ms
+2023-11-12 17:52:16.391 +02:00 [INF] Route matched with {action = "Register", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(ServiceContract.DTOs.RegisterDTO) on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 17:52:16.422 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:52:28.775 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:52:29.146 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Register (CrudUi) in 12753.012ms
+2023-11-12 17:52:31.063 +02:00 [INF] Route matched with {action = "Register", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Register() on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 17:52:31.065 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:52:31.066 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:52:31.087 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Register (CrudUi) in 21.7268ms

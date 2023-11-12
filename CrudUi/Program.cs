@@ -1,10 +1,13 @@
 using CrudUi.Filter.ActionFilter;
+using CrudUi.MiddleWars;
 using Entities;
+using Entities.IdentityIntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using RepositoryContacts;
 using Serilog;
-using Serilog.Core;
 using ServiceContract.Interfaces;
 using Services;
 
@@ -42,7 +45,20 @@ builder.Services.AddDbContext<CrudDbContext>(option =>
     var DbContext = builder.Services.BuildServiceProvider()
     .GetRequiredService<CrudDbContext>();
     var Count = DbContext.Countries.Count();
- */
+*/
+
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
+{
+    opt.Password.RequireDigit = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequiredLength = 5; // Set the desired password length here
+    opt.Password.RequireNonAlphanumeric = false;
+})
+ .AddEntityFrameworkStores<CrudDbContext>()
+ .AddDefaultTokenProviders()
+ .AddUserStore<UserStore<ApplicationUser, ApplicationRole, CrudDbContext, Guid>>()
+ .AddRoleStore<RoleStore<ApplicationRole, CrudDbContext, Guid>>();
 
 var app = builder.Build();
 //app.Logger.LogDebug("Debug Message");
@@ -51,12 +67,18 @@ var app = builder.Build();
 //app.Logger.LogError("Debug Message");
 //app.Logger.LogCritical("LogCritical");
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandling();
+}
+
+//app.UseExceptionHandler("/Home/Error");
+//// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//app.UseHsts();
 
 app.UseHttpsRedirection();
 
@@ -65,12 +87,16 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Person}/{action=Index}/{id?}");
+
+var UserManger = builder.Services.BuildServiceProvider().GetRequiredService<UserManager<ApplicationUser>>();
+var RoleManger = builder.Services.BuildServiceProvider().GetRequiredService<RoleManager<ApplicationRole>>();
+await IdentityInitializer.Initialize(UserManger, RoleManger);
 
 app.Run();
 /*

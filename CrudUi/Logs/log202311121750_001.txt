@@ -1,0 +1,2 @@
+2023-11-12 17:50:38.047 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:50:38.069 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Register (CrudUi) in 54161.3821ms

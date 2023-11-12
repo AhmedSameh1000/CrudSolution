@@ -1,0 +1,14 @@
+2023-11-12 17:50:29.157 +02:00 [INF] Executed DbCommand (10ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PersonName], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2023-11-12 17:50:38.052 +02:00 [INF] Executing ViewResult, running view Register.
+2023-11-12 17:50:38.068 +02:00 [INF] Executed ViewResult - view Register executed in 15.4832ms.
+2023-11-12 17:50:38.070 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:50:38.074 +02:00 [INF] Request finished HTTP/2 POST https://localhost:7013/Account/Register application/x-www-form-urlencoded 301 - 200 - text/html;+charset=utf-8 54179.2762ms
+2023-11-12 17:50:38.082 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:50:38.083 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 0.9936ms
+2023-11-12 17:50:38.085 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:50:38.085 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:50:38.087 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 1.7608ms
+2023-11-12 17:50:38.097 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.4786ms

@@ -1,0 +1,4 @@
+2023-11-12 17:51:58.446 +02:00 [INF] Route matched with {action = "Index", controller = "Person"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String, System.String, ServiceContract.Enums.SortOrderOptions) on controller CrudUi.Controllers.PersonController (CrudUi).
+2023-11-12 17:51:58.477 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:51:58.819 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:51:59.126 +02:00 [INF] Executed action CrudUi.Controllers.PersonController.Index (CrudUi) in 672.4813ms

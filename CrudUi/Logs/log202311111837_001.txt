@@ -1,3 +1,0 @@
-2023-11-11 18:37:26.301 +02:00 [INF] Application started. Press Ctrl+C to shut down.
-2023-11-11 18:37:26.313 +02:00 [INF] Hosting environment: Development
-2023-11-11 18:37:26.314 +02:00 [INF] Content root path: C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudUi

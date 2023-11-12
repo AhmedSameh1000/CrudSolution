@@ -5,6 +5,7 @@ using CrudUi.Filters.AutherizationFilters;
 using CrudUi.Filters.ExceptionFilters;
 using CrudUi.Filters.ResultFilters;
 using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
@@ -16,10 +17,11 @@ using System.Globalization;
 
 namespace CrudUi.Controllers
 {
+    [Authorize]
     //Glopal Filter for all methode
+    //[TypeFilter(typeof(HandelExceptionFilter))]
     [TypeFilter(typeof(ResponseHeaderActionFilter),
            Arguments = new object[] { "Controler-key", "Controler-value" })]
-    [TypeFilter(typeof(HandelExceptionFilter))]
     public class PersonController : Controller
     {
         private readonly ICountriesService _countriesService;
@@ -36,6 +38,7 @@ namespace CrudUi.Controllers
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [Route("")]
         [ServiceFilter(typeof(PersonListActionFilter))]//Service Filter is aservice we should log it in services and its lifetime
         [TypeFilter(typeof(ResponseHeaderActionFilter),
@@ -174,6 +177,7 @@ namespace CrudUi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("Person/Delete/{id}")]
         [TypeFilter(typeof(ResponseHeaderAsyncActionFilter),
             Arguments = new object[] { "Delete-key", "Delete-value" })]
@@ -195,6 +199,7 @@ namespace CrudUi.Controllers
 
         [HttpPost]
         [Route("Person/Delete/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(Guid id, PersonForReturnDTO personForReturn)
         {
             var PersonToDelete = await _personService.GetPersonById(id);

@@ -1,0 +1,32 @@
+2023-11-12 17:56:01.770 +02:00 [INF] Request starting HTTP/2 POST https://localhost:7013/Account/Register application/x-www-form-urlencoded 301
+2023-11-12 17:56:01.777 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:56:07.321 +02:00 [INF] Executed DbCommand (10ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PersonName], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2023-11-12 17:56:10.544 +02:00 [INF] Executing ViewResult, running view Register.
+2023-11-12 17:56:10.562 +02:00 [INF] Executed ViewResult - view Register executed in 18.4917ms.
+2023-11-12 17:56:10.569 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:56:10.573 +02:00 [INF] Request finished HTTP/2 POST https://localhost:7013/Account/Register application/x-www-form-urlencoded 301 - 200 - text/html;+charset=utf-8 8803.1707ms
+2023-11-12 17:56:10.580 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:56:10.583 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:56:10.583 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:56:10.586 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 4.6348ms
+2023-11-12 17:56:10.586 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 5.3645ms
+2023-11-12 17:56:10.595 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 11.4641ms
+2023-11-12 17:56:26.742 +02:00 [INF] Request starting HTTP/2 POST https://localhost:7013/Account/Register application/x-www-form-urlencoded 301
+2023-11-12 17:56:26.744 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:56:32.886 +02:00 [INF] Executed DbCommand (11ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PersonName], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2023-11-12 17:56:42.358 +02:00 [INF] Executing ViewResult, running view Register.
+2023-11-12 17:56:42.370 +02:00 [INF] Executed ViewResult - view Register executed in 12.3907ms.
+2023-11-12 17:56:42.373 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:56:42.375 +02:00 [INF] Request finished HTTP/2 POST https://localhost:7013/Account/Register application/x-www-form-urlencoded 301 - 200 - text/html;+charset=utf-8 15633.8187ms
+2023-11-12 17:56:42.380 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:56:42.380 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:56:42.380 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:56:42.381 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 1.8205ms
+2023-11-12 17:56:42.384 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 3.0328ms
+2023-11-12 17:56:42.397 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 17.1340ms

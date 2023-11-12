@@ -1,0 +1,47 @@
+2023-11-12 17:55:44.082 +02:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetUsers] AS [a]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2023-11-12 17:55:44.110 +02:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-12 17:55:44.208 +02:00 [INF] Now listening on: https://localhost:7013
+2023-11-12 17:55:44.209 +02:00 [INF] Now listening on: http://localhost:5290
+2023-11-12 17:55:45.251 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/ - -
+2023-11-12 17:55:45.321 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-12 17:55:45.387 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:55:45.388 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:55:45.389 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:55:45.390 +02:00 [INF] Result Filter Before OnResultExecutionAsync
+2023-11-12 17:55:45.397 +02:00 [INF] Index Action Methode in Person Controller
+2023-11-12 17:55:45.773 +02:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CountryId], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[Name], [p].[ReceiveEmails], [c].[Id], [c].[Name]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryId] = [c].[Id]
+2023-11-12 17:55:45.979 +02:00 [INF] Result Filter Before OnResultExecutionAsync
+2023-11-12 17:55:45.981 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:55:45.982 +02:00 [INF] PersonListActionFilter.OnActionExecuted
+2023-11-12 17:55:45.983 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:55:46.001 +02:00 [INF] Executing ViewResult, running view Index.
+2023-11-12 17:55:46.411 +02:00 [INF] Executed ViewResult - view Index executed in 416.3336ms.
+2023-11-12 17:55:46.418 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-12 17:55:46.458 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:55:46.469 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 8.8934ms
+2023-11-12 17:55:46.475 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/ - - - 200 - text/html;+charset=utf-8 1227.2849ms
+2023-11-12 17:55:46.476 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:55:46.476 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:55:46.514 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 37.9846ms
+2023-11-12 17:55:46.520 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 44.1786ms
+2023-11-12 17:55:48.595 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/Account/Register - -
+2023-11-12 17:55:48.601 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:55:48.619 +02:00 [INF] Executing ViewResult, running view Register.
+2023-11-12 17:55:48.687 +02:00 [INF] Executed ViewResult - view Register executed in 69.3581ms.
+2023-11-12 17:55:48.689 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:55:48.694 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/Account/Register - - - 200 - text/html;+charset=utf-8 99.2305ms
+2023-11-12 17:55:48.705 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:55:48.705 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:55:48.707 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 1.7776ms
+2023-11-12 17:55:48.708 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 3.1539ms
+2023-11-12 17:55:48.714 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:55:48.726 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.1209ms

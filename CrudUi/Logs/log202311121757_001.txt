@@ -1,0 +1,66 @@
+2023-11-12 17:57:27.400 +02:00 [INF] Executed DbCommand (26ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [AspNetUsers] AS [a]) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2023-11-12 17:57:27.448 +02:00 [INF] User profile is available. Using 'C:\Users\Administrator\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-11-12 17:57:27.551 +02:00 [INF] Now listening on: https://localhost:7013
+2023-11-12 17:57:27.552 +02:00 [INF] Now listening on: http://localhost:5290
+2023-11-12 17:57:28.377 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/ - -
+2023-11-12 17:57:28.456 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-12 17:57:28.539 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:57:28.540 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:57:28.541 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:57:28.542 +02:00 [INF] Result Filter Before OnResultExecutionAsync
+2023-11-12 17:57:28.550 +02:00 [INF] Index Action Methode in Person Controller
+2023-11-12 17:57:28.791 +02:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CountryId], [p].[DateOfBirth], [p].[Email], [p].[Gender], [p].[Name], [p].[ReceiveEmails], [c].[Id], [c].[Name]
+FROM [Persons] AS [p]
+LEFT JOIN [Countries] AS [c] ON [p].[CountryId] = [c].[Id]
+2023-11-12 17:57:28.907 +02:00 [INF] Result Filter Before OnResultExecutionAsync
+2023-11-12 17:57:28.909 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:57:28.910 +02:00 [INF] PersonListActionFilter.OnActionExecuted
+2023-11-12 17:57:28.911 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:57:28.924 +02:00 [INF] Executing ViewResult, running view Index.
+2023-11-12 17:57:29.213 +02:00 [INF] Executed ViewResult - view Index executed in 292.3858ms.
+2023-11-12 17:57:29.219 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.PersonController.Index (CrudUi)'
+2023-11-12 17:57:29.245 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:57:29.246 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:57:29.246 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:57:29.267 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 18.9782ms
+2023-11-12 17:57:29.267 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 20.5239ms
+2023-11-12 17:57:29.269 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/ - - - 200 - text/html;+charset=utf-8 895.7075ms
+2023-11-12 17:57:29.278 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 31.5566ms
+2023-11-12 17:57:30.185 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/Account/Register - -
+2023-11-12 17:57:30.191 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:57:30.202 +02:00 [INF] Executing ViewResult, running view Register.
+2023-11-12 17:57:30.260 +02:00 [INF] Executed ViewResult - view Register executed in 59.1958ms.
+2023-11-12 17:57:30.262 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:57:30.265 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/Account/Register - - - 200 - text/html;+charset=utf-8 80.2277ms
+2023-11-12 17:57:30.277 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 17:57:30.277 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 17:57:30.277 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 17:57:30.278 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 1.5318ms
+2023-11-12 17:57:30.285 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 8.0009ms
+2023-11-12 17:57:30.289 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 12.4651ms
+2023-11-12 17:57:42.686 +02:00 [INF] Request starting HTTP/2 POST https://localhost:7013/Account/Register application/x-www-form-urlencoded 301
+2023-11-12 17:57:42.689 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.AccountController.Register (CrudUi)'
+2023-11-12 17:57:46.692 +02:00 [INF] Executed DbCommand (22ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PersonName], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2023-11-12 17:57:53.041 +02:00 [INF] Executed DbCommand (2ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PersonName], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2023-11-12 17:57:53.195 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = Int32), @p2='?' (Size = 4000), @p3='?' (Size = 256), @p4='?' (DbType = Boolean), @p5='?' (DbType = Boolean), @p6='?' (DbType = DateTimeOffset), @p7='?' (Size = 256), @p8='?' (Size = 256), @p9='?' (Size = 4000), @p10='?' (Size = 4000), @p11='?' (Size = 4000), @p12='?' (DbType = Boolean), @p13='?' (Size = 4000), @p14='?' (DbType = Boolean), @p15='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [AspNetUsers] ([Id], [AccessFailedCount], [ConcurrencyStamp], [Email], [EmailConfirmed], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PersonName], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [TwoFactorEnabled], [UserName])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13, @p14, @p15);
+2023-11-12 17:57:59.990 +02:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedRoleName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedRoleName_0

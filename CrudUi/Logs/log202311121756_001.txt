@@ -1,0 +1,8 @@
+2023-11-12 17:56:01.786 +02:00 [INF] Route matched with {action = "Register", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(ServiceContract.DTOs.RegisterDTO) on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 17:56:01.809 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:56:10.542 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:56:10.568 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Register (CrudUi) in 8776.2335ms
+2023-11-12 17:56:26.746 +02:00 [INF] Route matched with {action = "Register", controller = "Account"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(ServiceContract.DTOs.RegisterDTO) on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 17:56:26.764 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 17:56:42.357 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 17:56:42.372 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Register (CrudUi) in 15622.3508ms

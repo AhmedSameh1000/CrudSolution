@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.IdentityIntities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entities
 {
-    public class CrudDbContext : DbContext
+    public class CrudDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
         public CrudDbContext(DbContextOptions options) : base(options)
         {
