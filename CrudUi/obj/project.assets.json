@@ -817,7 +817,7 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
-      "Serilog/3.1.0": {
+      "Serilog/3.1.1": {
         "type": "package",
         "compile": {
           "lib/net7.0/Serilog.dll": {
@@ -2641,10 +2641,10 @@
         "mono.texttemplating.nuspec"
       ]
     },
-    "Serilog/3.1.0": {
-      "sha512": "UPJGG8Hz12obhtAELHb0q83j0YpO1vGCypUbH0P4wMZnrpcqmrSLhHkZ/4Ojc+iNVpLwZ/wPBVC3lwSzzoZ/MQ==",
+    "Serilog/3.1.1": {
+      "sha512": "P6G4/4Kt9bT635bhuwdXlJ2SCqqn2nhh4gqFqQueCOr9bK/e7W9ll/IoX1Ter948cV2Z/5+5v8pAfJYUISY03A==",
       "type": "package",
-      "path": "serilog/3.1.0",
+      "path": "serilog/3.1.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2664,7 +2664,7 @@
         "lib/netstandard2.0/Serilog.xml",
         "lib/netstandard2.1/Serilog.dll",
         "lib/netstandard2.1/Serilog.xml",
-        "serilog.3.1.0.nupkg.sha512",
+        "serilog.3.1.1.nupkg.sha512",
         "serilog.nuspec"
       ]
     },
@@ -3806,7 +3806,7 @@
       "Microsoft.EntityFrameworkCore.Design >= 7.0.13",
       "Repositories >= 1.0.0",
       "RepositoryContacts >= 1.0.0",
-      "Serilog >= 3.1.0",
+      "Serilog >= 3.1.1",
       "Serilog.AspNetCore >= 7.0.0",
       "Serilog.Sinks.MSSqlServer >= 6.3.0",
       "ServiceContract >= 1.0.0",
@@ -3876,7 +3876,7 @@
           },
           "Serilog": {
             "target": "Package",
-            "version": "[3.1.0, )"
+            "version": "[3.1.1, )"
           },
           "Serilog.AspNetCore": {
             "target": "Package",

@@ -1,0 +1,12 @@
+2023-11-12 19:26:07.966 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/Account/Login - -
+2023-11-12 19:26:07.972 +02:00 [INF] Executing endpoint 'CrudUi.Controllers.AccountController.Login (CrudUi)'
+2023-11-12 19:26:07.981 +02:00 [INF] Executing ViewResult, running view Login.
+2023-11-12 19:26:08.009 +02:00 [INF] Executed ViewResult - view Login executed in 30.1471ms.
+2023-11-12 19:26:08.012 +02:00 [INF] Executed endpoint 'CrudUi.Controllers.AccountController.Login (CrudUi)'
+2023-11-12 19:26:08.014 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/Account/Login - - - 200 - text/html;+charset=utf-8 48.1816ms
+2023-11-12 19:26:08.019 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/CrudUi.styles.css - -
+2023-11-12 19:26:08.020 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - -
+2023-11-12 19:26:08.022 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7013/_vs/browserLink - -
+2023-11-12 19:26:08.022 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/CrudUi.styles.css - - - 404 0 - 3.4660ms
+2023-11-12 19:26:08.022 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_framework/aspnetcore-browser-refresh.js - - - 200 12344 application/javascript;+charset=utf-8 1.8605ms
+2023-11-12 19:26:08.030 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7013/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 8.0901ms

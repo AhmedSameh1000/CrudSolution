@@ -2,18 +2,13 @@
 using CrudUi.Filter.ResourceFilters;
 using CrudUi.Filter.ResultFilters;
 using CrudUi.Filters.AutherizationFilters;
-using CrudUi.Filters.ExceptionFilters;
 using CrudUi.Filters.ResultFilters;
-using Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using ServiceContract.DTOs;
 using ServiceContract.Enums;
 using ServiceContract.Interfaces;
-using Services;
-using System.Globalization;
 
 namespace CrudUi.Controllers
 {

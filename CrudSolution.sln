@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryContacts", "Repos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{D1DF0450-D35B-4172-94C1-BACE0D5D9AAA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrudApi", "CrudApi\CrudApi.csproj", "{2D582DB5-9BE7-4704-8A57-5E8A5611DAFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudMinimalApi", "CrudMinimalApi\CrudMinimalApi.csproj", "{CD59C5BC-DC01-4AEC-9B42-91A598B9E50A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{D1DF0450-D35B-4172-94C1-BACE0D5D9AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1DF0450-D35B-4172-94C1-BACE0D5D9AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1DF0450-D35B-4172-94C1-BACE0D5D9AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D582DB5-9BE7-4704-8A57-5E8A5611DAFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D582DB5-9BE7-4704-8A57-5E8A5611DAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D582DB5-9BE7-4704-8A57-5E8A5611DAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D582DB5-9BE7-4704-8A57-5E8A5611DAFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD59C5BC-DC01-4AEC-9B42-91A598B9E50A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD59C5BC-DC01-4AEC-9B42-91A598B9E50A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD59C5BC-DC01-4AEC-9B42-91A598B9E50A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD59C5BC-DC01-4AEC-9B42-91A598B9E50A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

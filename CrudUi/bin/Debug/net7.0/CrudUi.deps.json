@@ -12,7 +12,7 @@
           "Microsoft.EntityFrameworkCore.Design": "7.0.13",
           "Repositories": "1.0.0",
           "RepositoryContacts": "1.0.0",
-          "Serilog": "3.1.0",
+          "Serilog": "3.1.1",
           "Serilog.AspNetCore": "7.0.0",
           "Serilog.Sinks.MSSqlServer": "6.3.0",
           "ServiceContract": "1.0.0",
@@ -481,11 +481,11 @@
           }
         }
       },
-      "Serilog/3.1.0": {
+      "Serilog/3.1.1": {
         "runtime": {
           "lib/net7.0/Serilog.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "3.1.0.0"
+            "fileVersion": "3.1.1.0"
           }
         }
       },
@@ -493,7 +493,7 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "7.0.0",
           "Microsoft.Extensions.Logging": "7.0.0",
-          "Serilog": "3.1.0",
+          "Serilog": "3.1.1",
           "Serilog.Extensions.Hosting": "7.0.0",
           "Serilog.Formatting.Compact": "1.1.0",
           "Serilog.Settings.Configuration": "7.0.0",
@@ -513,7 +513,7 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "7.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
-          "Serilog": "3.1.0",
+          "Serilog": "3.1.1",
           "Serilog.Extensions.Logging": "7.0.0"
         },
         "runtime": {
@@ -526,7 +526,7 @@
       "Serilog.Extensions.Logging/7.0.0": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "7.0.0",
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/net7.0/Serilog.Extensions.Logging.dll": {
@@ -537,7 +537,7 @@
       },
       "Serilog.Formatting.Compact/1.1.0": {
         "dependencies": {
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/netstandard2.0/Serilog.Formatting.Compact.dll": {
@@ -550,7 +550,7 @@
         "dependencies": {
           "Microsoft.Extensions.Configuration.Binder": "7.0.0",
           "Microsoft.Extensions.DependencyModel": "7.0.0",
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/net7.0/Serilog.Settings.Configuration.dll": {
@@ -561,7 +561,7 @@
       },
       "Serilog.Sinks.Console/4.0.1": {
         "dependencies": {
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/net5.0/Serilog.Sinks.Console.dll": {
@@ -572,7 +572,7 @@
       },
       "Serilog.Sinks.Debug/2.0.0": {
         "dependencies": {
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/netstandard2.1/Serilog.Sinks.Debug.dll": {
@@ -583,7 +583,7 @@
       },
       "Serilog.Sinks.File/5.0.0": {
         "dependencies": {
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/net5.0/Serilog.Sinks.File.dll": {
@@ -597,7 +597,7 @@
           "Microsoft.Data.SqlClient": "5.1.1",
           "Microsoft.Extensions.Configuration": "6.0.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
-          "Serilog": "3.1.0",
+          "Serilog": "3.1.1",
           "Serilog.Sinks.PeriodicBatching": "3.1.0",
           "System.Configuration.ConfigurationManager": "6.0.1"
         },
@@ -610,7 +610,7 @@
       },
       "Serilog.Sinks.PeriodicBatching/3.1.0": {
         "dependencies": {
-          "Serilog": "3.1.0"
+          "Serilog": "3.1.1"
         },
         "runtime": {
           "lib/netstandard2.1/Serilog.Sinks.PeriodicBatching.dll": {
@@ -1177,12 +1177,12 @@
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
     },
-    "Serilog/3.1.0": {
+    "Serilog/3.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-UPJGG8Hz12obhtAELHb0q83j0YpO1vGCypUbH0P4wMZnrpcqmrSLhHkZ/4Ojc+iNVpLwZ/wPBVC3lwSzzoZ/MQ==",
-      "path": "serilog/3.1.0",
-      "hashPath": "serilog.3.1.0.nupkg.sha512"
+      "sha512": "sha512-P6G4/4Kt9bT635bhuwdXlJ2SCqqn2nhh4gqFqQueCOr9bK/e7W9ll/IoX1Ter948cV2Z/5+5v8pAfJYUISY03A==",
+      "path": "serilog/3.1.1",
+      "hashPath": "serilog.3.1.1.nupkg.sha512"
     },
     "Serilog.AspNetCore/7.0.0": {
       "type": "package",

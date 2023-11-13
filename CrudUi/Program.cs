@@ -12,7 +12,6 @@ using ServiceContract.Interfaces;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
@@ -59,6 +58,9 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
  .AddDefaultTokenProviders()
  .AddUserStore<UserStore<ApplicationUser, ApplicationRole, CrudDbContext, Guid>>()
  .AddRoleStore<RoleStore<ApplicationRole, CrudDbContext, Guid>>();
+
+//var appDbContextFactory = new ApplicationDbContextFactory().CreateDbContext(new string[] { });
+//var Count = appDbContextFactory.Countries.Count();
 
 var app = builder.Build();
 //app.Logger.LogDebug("Debug Message");

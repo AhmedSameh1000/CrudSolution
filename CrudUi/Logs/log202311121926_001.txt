@@ -1,0 +1,4 @@
+2023-11-12 19:26:07.974 +02:00 [INF] Route matched with {action = "Login", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller CrudUi.Controllers.AccountController (CrudUi).
+2023-11-12 19:26:07.978 +02:00 [INF] PersonListActionFilter.OnActionExecuting
+2023-11-12 19:26:07.979 +02:00 [INF] ResponseHeaderActionFilter.OnActionExecuted
+2023-11-12 19:26:08.011 +02:00 [INF] Executed action CrudUi.Controllers.AccountController.Login (CrudUi) in 32.6757ms

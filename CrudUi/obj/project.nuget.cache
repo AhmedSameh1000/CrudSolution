@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3FRnWcwZ1WNey7ulVcpCd+NdhkAqN7TQFSbJbcB4ZW/X/7JXgRpToNdri9O9hNBE+74bBJfQ5nlQ7OOXia9l6A==",
+  "dgSpecHash": "6MMiOo1YmHULt/30RTLjOvdPaCv5OL47GgLEF2QJsE2hfxHpo5FEUr7uwBHPEFzngpOwRW+RoTGCSrFMM7uUtQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Administrator\\Desktop\\AspApplication\\CrudSolution\\CrudUi\\CrudUi.csproj",
   "expectedPackageFiles": [
@@ -51,7 +51,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\serilog\\3.1.0\\serilog.3.1.0.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\serilog\\3.1.1\\serilog.3.1.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\serilog.aspnetcore\\7.0.0\\serilog.aspnetcore.7.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\serilog.extensions.hosting\\7.0.0\\serilog.extensions.hosting.7.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\serilog.extensions.logging\\7.0.0\\serilog.extensions.logging.7.0.0.nupkg.sha512",

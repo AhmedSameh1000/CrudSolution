@@ -97,7 +97,6 @@ C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\obj\Debug\ne
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\obj\Debug\net7.0\CrudTest.pdb
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\obj\Debug\net7.0\CrudTest.genruntimeconfig.cache
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\obj\Debug\net7.0\ref\CrudTest.dll
-C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\CoverletSourceRootsMapping
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\Entities.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\ServiceContract.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\Services.dll
@@ -169,3 +168,4 @@ C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\ne
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Administrator\Desktop\AspApplication\CrudSolution\CrudTest\bin\Debug\net7.0\CoverletSourceRootsMapping_CrudTest
